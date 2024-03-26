@@ -1,0 +1,4 @@
+[submodule "submodule"]
+  path = submodule
+  url = https://github.com/NZ-generation/submodule.git
+  branch = main
