@@ -43,6 +43,11 @@ jobs:
       with:
         token: ${{secrets.CONFIG_TOKEN}}
         submodules: true
+        
+    # 서브 모듈 변경 점 있으면 update
+    - name: Git Submodule Update
+      run: |
+        git submodule update --remote --recursive
 
     # 프로젝트 메타정보 추출해서 Docker image에 태그 생성
     - name: Extract metadata (tags, labels) for Docker
