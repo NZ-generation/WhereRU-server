@@ -83,5 +83,5 @@ jobs:
         script: |
           sudo docker stop $(sudo docker ps -a -q)
           sudo docker pull ${{secrets.DOCKERHUB_USERNAME}}/where-r-u:latest
-          sudo docker run -d -p 80:8080 ${{secrets.DOCKERHUB_USERNAME}}/where-r-u:latest
+          sudo docker run -d -p 8080:8080 --name whereru-main-server -e SPRING_PROFILE=main -e TZ=Asia/Seoul ${{secrets.DOCKERHUB_USERNAME}}/where-r-u:latest
           sudo docker image prune -f
