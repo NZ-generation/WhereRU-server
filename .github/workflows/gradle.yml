@@ -48,19 +48,7 @@ jobs:
     - name: Git Submodule Update
       run: |
         git submodule update --remote --recursive
-
-    # 프로젝트 메타정보 추출해서 Docker image에 태그 생성
-    - name: Extract metadata (tags, labels) for Docker
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{secrets.DOCKERHUB_USERNAME}}/daily-pay
-        # 가장 최신 image 에 latest tag 달기
-        flavor: |
-          latest=true
-        # Git short commit, use git version tag
-        tags: |
-          type=semver,pattern={{version}}
+      
 
     # gradle build
     - name: Build with Gradle
