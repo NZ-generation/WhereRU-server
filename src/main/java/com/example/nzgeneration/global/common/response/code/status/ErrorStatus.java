@@ -17,7 +17,7 @@ public enum ErrorStatus implements BaseErrorCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, 403, "금지된 요청입니다."),
 
     //멤버 관련
-    _EMPTY_MEMBER(HttpStatus.CONFLICT, 4001, "존재하지 않는 사용자입니다."),
+    _EMPTY_USER(HttpStatus.CONFLICT, 4001, "존재하지 않는 사용자입니다."),
 
     //인증 관련
     _EMPTY_JWT(HttpStatus.UNAUTHORIZED, 4011, "JWT가 존재하지 않습니다."),
@@ -27,7 +27,8 @@ public enum ErrorStatus implements BaseErrorCode {
     _FAULT_S3_KEY(HttpStatus.NOT_FOUND, 4021, "잘못된 S3 정보입니다."),
 
     //파일 업로드 관련
-    _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 4031, "파일 업로드에 실패했습니다.")
+    _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 4031, "파일 업로드에 실패했습니다."),
+
 
     ;
 
