@@ -1,7 +1,7 @@
 package com.example.nzgeneration.domain.nft;
 
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
-import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.member.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +24,7 @@ public class Nft extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
     private String imageUrl;
 }

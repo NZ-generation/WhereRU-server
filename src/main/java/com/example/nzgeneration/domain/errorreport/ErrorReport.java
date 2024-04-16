@@ -1,8 +1,8 @@
-package com.example.nzgeneration.global.errorreport;
+package com.example.nzgeneration.domain.errorreport;
 
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import com.example.nzgeneration.domain.trashcan.Trashcan;
-import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.member.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,7 +23,7 @@ public class ErrorReport extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    private User errorReportUser;
+    private Member errorReportMember;
 
     private String content;
 

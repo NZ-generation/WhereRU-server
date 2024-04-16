@@ -1,11 +1,9 @@
 package com.example.nzgeneration.global.security;
 
-import com.example.nzgeneration.domain.user.User;
-import com.example.nzgeneration.domain.user.UserRepository;
+import com.example.nzgeneration.domain.member.Member;
+import com.example.nzgeneration.domain.member.MemberRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -18,12 +16,12 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterAnnotation(CurrentUser.class) != null
-            && parameter.getParameterType().equals(User.class);
+            && parameter.getParameterType().equals(Member.class);
     }
 
     @Override

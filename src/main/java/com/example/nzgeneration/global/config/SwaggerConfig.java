@@ -18,7 +18,7 @@ public class SwaggerConfig {
         return new OpenAPI()
             .components(new Components())
             .info(apiInfo())
-            .addSecurityItem(securityRequirement())
+          //  .addSecurityItem(securityRequirement())
             .components(components());
     }
 
@@ -38,7 +38,7 @@ public class SwaggerConfig {
                 .bearerFormat("JWT"));
     }
 
-    private SecurityRequirement securityRequirement(){
-        return new SecurityRequirement().addList(jwtSchemeName);
-    }
+//    private SecurityRequirement securityRequirement(){
+//        return new SecurityRequirement().addList(jwtSchemeName);
+//    }
 }

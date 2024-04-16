@@ -1,7 +1,7 @@
-package com.example.nzgeneration.domain.userbadge;
+package com.example.nzgeneration.domain.memberbadge;
 
 import com.example.nzgeneration.domain.badge.Badge;
-import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.member.Member;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,14 +18,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class UserBadge extends BaseTimeEntity {
+public class MemberBadge extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
