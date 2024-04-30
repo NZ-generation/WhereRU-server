@@ -19,8 +19,6 @@ import org.springframework.web.client.RestClient;
 @Service
 public class OpenAIService {
 
-    private String apiUrl = "https://api.openai.com/v1/chat/completions";
-
     @Value("${openai.api.key}")
     private String apiKey;
 
@@ -28,6 +26,7 @@ public class OpenAIService {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    // 이미지 검사
     public Boolean getImageDescription(String imageUrl) throws JsonProcessingException {
 
         Map<String, Object> textContent = new HashMap<>();
@@ -53,7 +52,7 @@ public class OpenAIService {
         requestBody.put("max_tokens", 300);
 
         ResponseEntity<String> response = restClient.post()
-            .uri(apiUrl)
+            .uri("https://api.openai.com/v1/chat/completions")
             .contentType(APPLICATION_JSON)
             .header("Authorization", "Bearer " + apiKey)
             .body(requestBody)
@@ -65,4 +64,35 @@ public class OpenAIService {
 
         return contentNode.textValue().equals("TRUE");
     }
+
+    // 이미지 생성
+    public String createImage(String prompt) throws JsonProcessingException {
+        Map<String, Object> requestBody = new HashMap<>();
+        requestBody.put("model", "dall-e-3");
+        requestBody.put("prompt", prompt);
+        requestBody.put("response_format", "url");
+        requestBody.put("n", 1);
+        requestBody.put("size", "1024x1024");
+
+        ResponseEntity<String> response = restClient.post()
+            .uri("https://api.openai.com/v1/images/generations")
+            .contentType(APPLICATION_JSON)
+            .header("Authorization", "Bearer " + apiKey)
+            .body(requestBody)
+            .retrieve()
+            .toEntity(String.class);
+
+        JsonNode rootNode = objectMapper.readTree(response.getBody());
+        JsonNode imageUrlNode = rootNode.path("data").get(0).path("url");
+        return imageUrlNode.asText();
+    }
+
+    // 프롬프트 구성
+    public String buildPrompt(String gender, String action, String animal) {
+        //return String.format("Create an NFT-ready image. It should be in a 24 x 24 pixel dot art style, low-resolution, with fewer dots. A character of %s gender is performing %s, accompanied by a %s. The background should give an eco-friendly vibe.", gender, action, animal);
+        return String.format("Create an NFT-ready image in a cute, child-friendly style. It should be in a 24 x 24 pixel dot art style, low-resolution, with fewer dots. A character of %s gender, depicted in a whimsical and adorable manner, is actively %s. They are joyfully accompanied by a %s, adding a playful and friendly touch. The background should evoke eco-friendly vibe.", gender, action, animal);
+
+    }
+
+
 }

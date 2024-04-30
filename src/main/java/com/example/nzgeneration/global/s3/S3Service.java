@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
@@ -87,6 +92,40 @@ public class S3Service {
 
     public void deleteFile(String fileName) {
         amazonS3Client.deleteObject(new DeleteObjectRequest(bucket, fileName));
+    }
+
+    public S3Result uploadImageFromUrl(String imageUrl) {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            // HttpClient를 사용하여 이미지 다운
+            HttpGet request = new HttpGet(imageUrl);
+            try (CloseableHttpResponse response = httpClient.execute(request)) {
+                HttpEntity entity = response.getEntity();
+                if (entity != null) {
+                    // 입력 스트림을 통해 이미지 데이터를 읽기.
+                    try (InputStream inputStream = entity.getContent()) {
+                        // 파일 확장자 추출
+                        String extension = imageUrl.substring(imageUrl.lastIndexOf('.'));
+                        // S3에 저장할 파일 이름 생성 (UUID + 확장자)
+                        String fileName = UUID.randomUUID().toString() + extension;
+
+                        // ObjectMetadata 설정
+                        ObjectMetadata objectMetadata = new ObjectMetadata();
+                        objectMetadata.setContentLength(entity.getContentLength());
+                        objectMetadata.setContentType(entity.getContentType().getValue());
+
+                        // S3에 파일 업로드
+                        amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                            .withCannedAcl(CannedAccessControlList.PublicRead));
+
+                        // 업로드된 파일의 URL을 반환
+                        return new S3Result(amazonS3Client.getUrl(bucket, fileName).toString());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to download or upload image", e);
+        }
+        return null;
     }
 
 }
