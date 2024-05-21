@@ -29,7 +29,8 @@ public enum ErrorStatus implements BaseErrorCode {
     //파일 업로드 관련
     _FILE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, 4031, "파일 업로드에 실패했습니다."),
 
-
+    //쓰레기통 관련
+    _EMPTY_TRASHCAN(HttpStatus.CONFLICT, 4041, "존재하지 않는 쓰레기통입니다.")
     ;
 
 
