@@ -1,4 +1,4 @@
-package com.example.nzgeneration.domain.member;
+package com.example.nzgeneration.domain.user;
 
 
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
@@ -16,13 +16,15 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Member extends BaseTimeEntity {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String nickname;
+
+    private String email;
 
     private String profileImageUrl;
 

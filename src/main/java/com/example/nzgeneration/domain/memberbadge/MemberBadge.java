@@ -1,7 +1,7 @@
 package com.example.nzgeneration.domain.memberbadge;
 
 import com.example.nzgeneration.domain.badge.Badge;
-import com.example.nzgeneration.domain.member.Member;
+import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,7 +25,7 @@ public class MemberBadge extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
