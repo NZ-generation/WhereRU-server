@@ -1,31 +1,35 @@
-package com.example.nzgeneration.domain.trashcan;
+package com.example.nzgeneration.domain.trashcanerrorreport;
 
-import com.example.nzgeneration.global.utils.BaseTimeEntity;
+import com.example.nzgeneration.domain.member.Member;
+import com.example.nzgeneration.domain.trashcan.TrashCategory;
+import com.example.nzgeneration.domain.trashcan.Trashcan;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Trashcan extends BaseTimeEntity {
+public class TrashcanErrorReport {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private TrashCategory trashCategory;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Member member;
 
-    private String representativeImageUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Trashcan trashcan;
+
 }
