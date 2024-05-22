@@ -21,6 +21,7 @@ public class TrashcanErrorReportService {
     @Transactional
     public String addError(Long id) {
 
+        //TODO - 유저 변경, 중복시 예외 처리
         Member member = memberRepository.findById(id)
             .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
 
