@@ -36,4 +36,9 @@ public class Member extends BaseTimeEntity {
 
     @ColumnDefault("0")
     private int currentPoint = 0;
+
+    public void stamp(int point) {
+        this.cumulativePoint += point;
+        this.currentPoint += point;
+    }
 }
