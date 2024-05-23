@@ -18,10 +18,12 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //멤버 관련
     _EMPTY_USER(HttpStatus.CONFLICT, 4001, "존재하지 않는 사용자입니다."),
+    _INVALID_USER(HttpStatus.CONFLICT, 4002, "유효하지 않은 사용자입니다."),
 
     //인증 관련
     _EMPTY_JWT(HttpStatus.UNAUTHORIZED, 4011, "JWT가 존재하지 않습니다."),
     _INVALID_JWT(HttpStatus.UNAUTHORIZED, 4012, "유효하지 않은 JWT입니다."),
+    _EXPIRED_JWT(HttpStatus.UNAUTHORIZED, 4014, "만료된 JWT입니다."),
 
     //S3 관련
     _FAULT_S3_KEY(HttpStatus.NOT_FOUND, 4021, "잘못된 S3 정보입니다."),
