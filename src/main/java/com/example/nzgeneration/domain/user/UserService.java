@@ -13,10 +13,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addStamp() {
+    public void addStamp(User user) {
         //TODO - 현재 멤버 불러오기
-        User user = userRepository.findById(1L)
-            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
+//        User user = userRepository.findById(1L)
+//            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
 
         //TODO - 포인트 상수, 기준 정하기
         user.stamp(20);

@@ -4,6 +4,8 @@ import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -36,22 +38,22 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         throw new GeneralException(ErrorStatus._EMPTY_JWT);
     }
 
-//    public User loadUserFromToken(String token) {
-//        try {
-//            Claims claims = Jwts.parser().setSigningKey(jwtTokenProvider.getSecretKey())
-//                .parseClaimsJws(token).getBody();
-//
-//            String targetIndex = "+";
-//
-//            String targetSubject = claims.getSubject();
-//
-//            int index = targetSubject.indexOf(targetIndex);
-//            String userId = targetSubject.substring(0, index);
-//
-//            return userRepository.findById(Long.valueOf(userId))
-//                .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
-//        } catch (Exception ex) {
-//            throw new GeneralException(ErrorStatus._INVALID_JWT);
-//        }
-//    }
+    public User loadUserFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser().setSigningKey(jwtTokenProvider.getSecretKey())
+                .parseClaimsJws(token).getBody();
+
+            String targetIndex = "+";
+
+            String targetSubject = claims.getSubject();
+
+            int index = targetSubject.indexOf(targetIndex);
+            String userId = targetSubject.substring(0, index);
+
+            return userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
+        } catch (Exception ex) {
+            throw new GeneralException(ErrorStatus._INVALID_JWT);
+        }
+    }
 }

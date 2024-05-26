@@ -17,36 +17,29 @@ import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
-@Configuration
 @RequiredArgsConstructor
-@PropertySource("classpath:application-main.yml")
-@Service
 @Slf4j
 public class JwtTokenProvider {
+
     @Value("${jwt.access-token.expire-length}")
     private long accessTokenValidityInMilliseconds;
+
     @Value("${jwt.refresh-token.expire-length}")
     private long refreshTokenValidityInMillseconds;
+
     @Value("${jwt.custom.secretKey}")
     private String SECRET_KEY;
-
 
     private SecretKey cachedSecretKey;
     private final UserRepository userRepository;
 
     private SecretKey _getSecretKey() {
-        String keyBase64Encoded = Base64.getEncoder().encodeToString(SECRET_KEY.getBytes());
-        return Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+        return Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_KEY));
     }
 
-
-    // 시크릿 키를 반환하는 method
     public SecretKey getSecretKey() {
         if (cachedSecretKey == null)
             cachedSecretKey = _getSecretKey();
@@ -69,19 +62,16 @@ public class JwtTokenProvider {
                 .orElseThrow(() -> new GeneralException(ErrorStatus._INVALID_USER));
             String payload = user.getPayload();
             return createAccessToken(payload);
-
         } else {
             throw new GeneralException(ErrorStatus._INVALID_JWT);
         }
     }
 
-
-
-    public String createToken(String payload, long expireLength){
+    public String createToken(String payload, long expireLength) {
         Claims claims = Jwts.claims().setSubject(payload);
         Date now = new Date();
         long nowMillis = now.getTime();
-        long expireMillis = nowMillis + (expireLength * 1000); // expireLength를 초 단위로 받았다고 가정
+        long expireMillis = nowMillis + (expireLength * 1000);
         Date validity = new Date(expireMillis);
         return Jwts.builder()
             .setClaims(claims)
@@ -91,25 +81,24 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    public String getPayload(String token){
-        try{
+    public String getPayload(String token) {
+        try {
             return Jwts.parser()
                 .setSigningKey(getSecretKey())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
-        }catch (ExpiredJwtException e){
+        } catch (ExpiredJwtException e) {
             return e.getClaims().getSubject();
-        }catch(JwtException e){
+        } catch (JwtException e) {
             log.error(e.toString());
             throw new GeneralException(ErrorStatus._INVALID_JWT);
         }
     }
+
     public boolean validateToken(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser().setSigningKey(getSecretKey()).parseClaimsJws(token);
-            Date now = new Date();
-            long nowMillis = now.getTime();
             if (claimsJws.getBody().getExpiration().before(new Date())) {
                 throw new GeneralException(ErrorStatus._EXPIRED_JWT);
             }
@@ -122,30 +111,27 @@ public class JwtTokenProvider {
         }
     }
 
-    //회원가입 추가 정보 입력 시 사용
-    public String generateTempToken(String email){
+    public String generateTempToken(String email) {
         long now = System.currentTimeMillis();
         return Jwts.builder()
             .setSubject(email)
             .setIssuedAt(new Date(now))
-            .setExpiration(new Date(now + 1000 * 60 * 60)) // 1시간 유효
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .setExpiration(new Date(now + 1000 * 60 * 60))
+            .signWith(SignatureAlgorithm.HS256, getSecretKey())
             .compact();
     }
 
-    // 임시 토큰 검증 및 이메일 추출
     public String validateTempTokenAndGetEmail(String token) {
         try {
             return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(getSecretKey())
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
         } catch (ExpiredJwtException e) {
             throw new GeneralException(ErrorStatus._EXPIRED_JWT);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new GeneralException(ErrorStatus._BAD_REQUEST);
         }
     }
-
 }
