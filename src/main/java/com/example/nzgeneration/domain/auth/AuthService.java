@@ -51,5 +51,20 @@ public class AuthService {
         return LoginSimpleInfo.toDTO(accessToken, refreshToken, ResponseType.SIGN_IN);
     }
 
+    @Transactional
+    public LoginSimpleInfo updateUserToken(String refreshToken) {
+        if(userRepository.findByRefreshToken(refreshToken).isEmpty()){
+            throw new GeneralException(ErrorStatus._EXPIRED_JWT);
+        }
+        Long userId = Long.valueOf(jwtTokenProvider.getPayload(refreshToken));
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus._INVALID_JWT));
+        String newRefreshToken = jwtTokenProvider.createRefreshToken(userId);
+        String newAccesstoken = jwtTokenProvider.refreshAccessToken(refreshToken);
+        user.updateToken(newAccesstoken, newRefreshToken);
+        return new LoginSimpleInfo(newAccesstoken, newRefreshToken, ResponseType.TOKEN_REFRESH);
+
+    }
+
 
 }

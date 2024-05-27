@@ -44,5 +44,10 @@ public class AuthController {
         return ApiResponse.onSuccess(authService.signUp(token, createUserRequest));
     }
 
+    @PostMapping("/refresh-token")
+    @Operation(summary = "access token, refresh token 재발급")
+    public ApiResponse<LoginSimpleInfo> refreshToken(@RequestParam String refreshToken){
+        return ApiResponse.onSuccess(authService.updateUserToken(refreshToken));
+    }
 
 }
