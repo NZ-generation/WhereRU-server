@@ -51,8 +51,8 @@ public class JwtTokenProvider {
         return createToken(payload, accessTokenValidityInMilliseconds);
     }
 
-    public String createRefreshToken(Long climberId) {
-        return createToken(climberId.toString(), refreshTokenValidityInMillseconds);
+    public String createRefreshToken(Long userId) {
+        return createToken(userId.toString(), refreshTokenValidityInMillseconds);
     }
 
     public String refreshAccessToken(String refreshToken) {

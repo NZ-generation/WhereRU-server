@@ -1,7 +1,9 @@
 package com.example.nzgeneration.domain.user;
 
 
+import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,8 +43,10 @@ public class User extends BaseTimeEntity {
     @ColumnDefault("0")
     private int currentPoint = 0;
 
+    @ColumnDefault("true")
     private boolean isAllowLocationInfo;
 
+    @ColumnDefault("true")
     private boolean isAllowAdNotification;
 
     public void stamp(int point) {
@@ -50,18 +54,26 @@ public class User extends BaseTimeEntity {
         this.currentPoint += point;
     }
 
+    private String accessToken;
+    private String refreshToken;
+
+    public void updateToken(String accessToken, String refreshToken){
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
+
     public String getPayload(){
         return this.getId()+"nz";
     }
 
-    public static User toEntity(String nickName, String email, String profileImageUrl, String walletAddress, boolean isAllowAdNotification, boolean isAllowLocationInfo){
+    public static User toEntity(String email, CreateUserRequest createUserRequest){
         return User.builder()
-            .nickname(nickName)
+            .nickname(createUserRequest.getNickName())
             .email(email)
-            .profileImageUrl(profileImageUrl)
-            .walletAddress(walletAddress)
-            .isAllowAdNotification(isAllowAdNotification)
-            .isAllowLocationInfo(isAllowLocationInfo)
+            .profileImageUrl(createUserRequest.getProfileImgUrl())
+            .walletAddress(createUserRequest.getWalletAddress())
+            .isAllowAdNotification(createUserRequest.getIsAllowAdInfo())
+            .isAllowLocationInfo(createUserRequest.getIsAllowLocationInfo())
             .build();
     }
 }

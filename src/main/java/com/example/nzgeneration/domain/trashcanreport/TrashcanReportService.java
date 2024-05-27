@@ -17,10 +17,8 @@ public class TrashcanReportService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void addTrashcanReport(int mapX, int mapY, String imageUrl, TrashCategory trashCategory) {
+    public void addTrashcanReport(int mapX, int mapY, String imageUrl, TrashCategory trashCategory, User user) {
 
-        User user = userRepository.findById(1L)
-            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
 
         //TODO - 유저 중복 처리
         TrashcanReport trashcanReport = TrashcanReport.builder()

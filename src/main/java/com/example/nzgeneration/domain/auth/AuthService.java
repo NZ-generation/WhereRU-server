@@ -7,6 +7,8 @@ import com.example.nzgeneration.domain.auth.enums.ResponseType;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.global.common.response.ApiResponse;
+import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
+import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import com.example.nzgeneration.global.security.JwtTokenProvider;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -39,12 +41,13 @@ public class AuthService {
     @Transactional
     public LoginSimpleInfo signUp(String token, CreateUserRequest createUserRequest){
         String email = jwtTokenProvider.validateTempTokenAndGetEmail(token);
-        User user = User.toEntity(createUserRequest.getNickName(), email,
-            createUserRequest.getProfileImgUrl(), createUserRequest.getWalletAddress(),
-            createUserRequest.isAllowAdInfo(), createUserRequest.isAllowLocationInfo());
+        if(userRepository.findByEmail(email).isPresent())
+            throw new GeneralException(ErrorStatus._DUPLICATE_USER);
+        User user = User.toEntity(email, createUserRequest);
         userRepository.save(user);
         String accessToken = jwtTokenProvider.createAccessToken(user.getPayload());
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getId());
+        user.updateToken(accessToken, refreshToken);
         return LoginSimpleInfo.toDTO(accessToken, refreshToken, ResponseType.SIGN_IN);
     }
 
