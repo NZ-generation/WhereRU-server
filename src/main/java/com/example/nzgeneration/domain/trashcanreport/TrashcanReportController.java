@@ -17,10 +17,10 @@ public class TrashcanReportController {
 
     @PostMapping("trashcan")
     public ApiResponse<String> addTrashcanReport(
-        @RequestBody AddTrashcanReportRequest addTrashcanReportRequest, @CurrentUser User user) {
+        @RequestBody AddTrashcanReportRequest addTrashcanReportRequest) {
         trashcanReportService.addTrashcanReport(addTrashcanReportRequest.getMapX(),
             addTrashcanReportRequest.getMapY(), addTrashcanReportRequest.getImageUrl(),
-            addTrashcanReportRequest.getTrashCategory(), user);
+            addTrashcanReportRequest.getTrashCategory());
         return ApiResponse.onSuccess("제보에 성공했습니다.");
     }
 }

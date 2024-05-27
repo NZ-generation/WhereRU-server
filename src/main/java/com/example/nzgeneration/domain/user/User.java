@@ -34,14 +34,11 @@ public class User extends BaseTimeEntity {
 
     private String walletAddress;
 
-    @ColumnDefault("0")
-    private int badgeCount = 0;
+    private int badgeCount;
 
-    @ColumnDefault("0")
-    private int cumulativePoint = 0;
+    private int cumulativePoint;
 
-    @ColumnDefault("0")
-    private int currentPoint = 0;
+    private int currentPoint;
 
     @ColumnDefault("true")
     private boolean isAllowLocationInfo;
@@ -63,7 +60,7 @@ public class User extends BaseTimeEntity {
     }
 
     public String getPayload(){
-        return this.getId()+"nz";
+        return this.getId()+"+nz";
     }
 
     public static User toEntity(String email, CreateUserRequest createUserRequest){
@@ -74,6 +71,9 @@ public class User extends BaseTimeEntity {
             .walletAddress(createUserRequest.getWalletAddress())
             .isAllowAdNotification(createUserRequest.getIsAllowAdInfo())
             .isAllowLocationInfo(createUserRequest.getIsAllowLocationInfo())
+            .badgeCount(0)
+            .cumulativePoint(0)
+            .currentPoint(0)
             .build();
     }
 }
