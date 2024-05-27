@@ -1,11 +1,8 @@
 package com.example.nzgeneration.domain.trashcanerrorreport;
 
-import com.example.nzgeneration.domain.member.Member;
-import com.example.nzgeneration.domain.trashcan.TrashCategory;
 import com.example.nzgeneration.domain.trashcan.Trashcan;
+import com.example.nzgeneration.domain.user.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +24,7 @@ public class TrashcanErrorReport {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member member;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Trashcan trashcan;

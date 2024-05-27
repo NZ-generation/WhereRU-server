@@ -1,9 +1,8 @@
 package com.example.nzgeneration.domain.trashcanerrorreport;
 
-import com.example.nzgeneration.domain.member.Member;
-import com.example.nzgeneration.domain.member.MemberRepository;
 import com.example.nzgeneration.domain.trashcan.TrashcanRepository;
-import com.example.nzgeneration.domain.trashcan.TrashcanService;
+import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
@@ -16,20 +15,20 @@ public class TrashcanErrorReportService {
 
     private final TrashcanErrorReportRepository trashcanErrorReportRepository;
     private final TrashcanRepository trashcanRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public String addError(Long id) {
 
         //TODO - 유저 변경, 중복시 예외 처리
-        Member member = memberRepository.findById(id)
+        User user = userRepository.findById(id)
             .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
 
         TrashcanErrorReport trashcanErrorReport = TrashcanErrorReport.builder().trashcan(
                 trashcanRepository.findById(id)
                     .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_TRASHCAN))
             )
-            .member(member)
+            .user(user)
             .build();
 
         trashcanErrorReportRepository.save(trashcanErrorReport);

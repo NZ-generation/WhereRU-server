@@ -2,7 +2,7 @@ package com.example.nzgeneration.domain.trashcanreport;
 
 import com.example.nzgeneration.domain.trashcan.TrashCategory;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
-import com.example.nzgeneration.domain.member.Member;
+import com.example.nzgeneration.domain.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,7 +27,7 @@ public class TrashcanReport extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Member trashcanReportMember;
+    private User trashcanReportUser;
 
     @Enumerated(EnumType.STRING)
     private TrashCategory trashCategory;

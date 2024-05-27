@@ -1,8 +1,8 @@
 package com.example.nzgeneration.domain.trashcanreport;
 
-import com.example.nzgeneration.domain.member.Member;
-import com.example.nzgeneration.domain.member.MemberRepository;
 import com.example.nzgeneration.domain.trashcan.TrashCategory;
+import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
@@ -14,17 +14,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class TrashcanReportService {
 
     private final TrashcanReportRepository trashcanReportRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void addTrashcanReport(int mapX, int mapY, String imageUrl, TrashCategory trashCategory) {
 
-        Member member = memberRepository.findById(1L)
+        User user = userRepository.findById(1L)
             .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
 
         //TODO - 유저 중복 처리
         TrashcanReport trashcanReport = TrashcanReport.builder()
-            .trashcanReportMember(member)
+            .trashcanReportUser(user)
             .trashcanReportImageUrl(imageUrl)
             .trashCategory(trashCategory)
             .build();

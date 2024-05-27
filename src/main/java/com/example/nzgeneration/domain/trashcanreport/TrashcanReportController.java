@@ -1,7 +1,9 @@
 package com.example.nzgeneration.domain.trashcanreport;
 
 import com.example.nzgeneration.domain.trashcanreport.dto.TrashcanReportRequestDto.AddTrashcanReportRequest;
+import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.response.ApiResponse;
+import com.example.nzgeneration.global.security.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
