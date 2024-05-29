@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,19 +27,31 @@ public class User extends BaseTimeEntity {
     @Getter
     private Long id;
 
+    @Getter
     private String nickname;
 
     private String email;
 
+    @Getter
     private String profileImageUrl;
 
+    @Getter
     private String walletAddress;
 
+    @Getter
+    @Column(nullable = false, columnDefinition = "int default 0")
     private int badgeCount;
 
+    @ColumnDefault("0")
     private int cumulativePoint;
 
+    @Getter
+    @ColumnDefault("0")
     private int currentPoint;
+
+    @Getter
+    @ColumnDefault("0")
+    private int nftCount;
 
     @ColumnDefault("true")
     private boolean isAllowLocationInfo;
@@ -59,8 +72,24 @@ public class User extends BaseTimeEntity {
         this.refreshToken = refreshToken;
     }
 
+    public void updateNickName(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateWalletAddress(String walletAddress){
+        this.walletAddress = walletAddress;
+    }
+
+    public void updateProfileImg(String imgUrl){
+        this.profileImageUrl = imgUrl;
+    }
+
     public String getPayload(){
         return this.getId()+"+nz";
+    }
+
+    public LocalDateTime getCreatedAt(){
+        return this.getCreatedAt();
     }
 
     public static User toEntity(String email, CreateUserRequest createUserRequest){
@@ -74,6 +103,7 @@ public class User extends BaseTimeEntity {
             .badgeCount(0)
             .cumulativePoint(0)
             .currentPoint(0)
+            .nftCount(0)
             .build();
     }
 }

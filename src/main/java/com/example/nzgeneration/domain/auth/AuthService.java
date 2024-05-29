@@ -39,15 +39,17 @@ public class AuthService {
     }
 
     @Transactional
-    public LoginSimpleInfo signUp(String token, CreateUserRequest createUserRequest){
-        String email = jwtTokenProvider.validateTempTokenAndGetEmail(token);
+    public LoginSimpleInfo signUp(CreateUserRequest createUserRequest){
+        String email = jwtTokenProvider.validateTempTokenAndGetEmail(createUserRequest.getToken());
         if(userRepository.findByEmail(email).isPresent())
             throw new GeneralException(ErrorStatus._DUPLICATE_USER);
         User user = User.toEntity(email, createUserRequest);
+        System.out.println("Saving user with badgeCount: " + user.getBadgeCount());
         userRepository.save(user);
         String accessToken = jwtTokenProvider.createAccessToken(user.getPayload());
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getId());
         user.updateToken(accessToken, refreshToken);
+        System.out.println("Saving user with badgeCount: " + user.getBadgeCount());
         return LoginSimpleInfo.toDTO(accessToken, refreshToken, ResponseType.SIGN_IN);
     }
 

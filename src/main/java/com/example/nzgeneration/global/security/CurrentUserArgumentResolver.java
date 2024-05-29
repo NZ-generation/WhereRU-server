@@ -8,12 +8,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 @RequiredArgsConstructor
+@Component
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -33,7 +35,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
         String authorizationHeader = webRequest.getHeader("authorization");
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String token = authorizationHeader.substring(7); // "Bearer " 이후 문자열
-            //return loadUserFromToken(token);
+            return loadUserFromToken(token);
         }
         throw new GeneralException(ErrorStatus._EMPTY_JWT);
     }
