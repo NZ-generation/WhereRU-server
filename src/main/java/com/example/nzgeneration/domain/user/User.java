@@ -20,35 +20,29 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Getter
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
-    @Getter
     private String nickname;
 
     private String email;
 
-    @Getter
     private String profileImageUrl;
 
-    @Getter
     private String walletAddress;
 
-    @Getter
     private Integer badgeCount = 0;
 
     @ColumnDefault("0")
     private Integer cumulativePoint = 0;
 
-    @Getter
     @ColumnDefault("0")
     private Integer currentPoint = 0;
 
-    @Getter
     @ColumnDefault("0")
     private Integer nftCount = 0;
 
