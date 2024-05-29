@@ -20,6 +20,7 @@ public enum ErrorStatus implements BaseErrorCode {
     _EMPTY_USER(HttpStatus.CONFLICT, 4001, "존재하지 않는 사용자입니다."),
     _INVALID_USER(HttpStatus.CONFLICT, 4002, "유효하지 않은 사용자입니다."),
     _DUPLICATE_USER(HttpStatus.CONFLICT, 4003, "이미 존재하는 사용자입니다"),
+    _DUPLICATE_NICKNAME(HttpStatus.CONFLICT, 4003, "이미 존재하는 닉네임입니다"),
 
     //인증 관련
     _EMPTY_JWT(HttpStatus.UNAUTHORIZED, 4011, "JWT가 존재하지 않습니다."),

@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,11 +20,11 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Getter
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     private String nickname;
@@ -34,17 +35,22 @@ public class User extends BaseTimeEntity {
 
     private String walletAddress;
 
-    private int badgeCount;
+    private Integer badgeCount = 0;
 
-    private int cumulativePoint;
+    @ColumnDefault("0")
+    private Integer cumulativePoint = 0;
 
-    private int currentPoint;
+    @ColumnDefault("0")
+    private Integer currentPoint = 0;
+
+    @ColumnDefault("0")
+    private Integer nftCount = 0;
 
     @ColumnDefault("true")
-    private boolean isAllowLocationInfo;
+    private Boolean isAllowLocationInfo;
 
     @ColumnDefault("true")
-    private boolean isAllowAdNotification;
+    private Boolean isAllowAdNotification;
 
     public void stamp(int point) {
         this.cumulativePoint += point;
@@ -59,8 +65,24 @@ public class User extends BaseTimeEntity {
         this.refreshToken = refreshToken;
     }
 
+    public void updateNickName(String nickname){
+        this.nickname = nickname;
+    }
+
+    public void updateWalletAddress(String walletAddress){
+        this.walletAddress = walletAddress;
+    }
+
+    public void updateProfileImg(String imgUrl){
+        this.profileImageUrl = imgUrl;
+    }
+
     public String getPayload(){
         return this.getId()+"+nz";
+    }
+
+    public LocalDateTime getCreatedAt(){
+        return super.getCreatedAt();
     }
 
     public static User toEntity(String email, CreateUserRequest createUserRequest){
@@ -74,6 +96,7 @@ public class User extends BaseTimeEntity {
             .badgeCount(0)
             .cumulativePoint(0)
             .currentPoint(0)
+            .nftCount(0)
             .build();
     }
 }

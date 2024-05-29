@@ -10,6 +10,7 @@ public class AuthRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CreateUserRequest {
+        private String token;
         private String nickName;
         private String walletAddress;
         private String profileImgUrl;
@@ -17,5 +18,15 @@ public class AuthRequestDto {
         private Boolean isAllowAdInfo;
 
     }
+
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserIdTokenRequest{
+        private String idToken;
+
+    }
+
+
 
 }
