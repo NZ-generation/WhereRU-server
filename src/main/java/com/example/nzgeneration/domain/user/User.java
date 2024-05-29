@@ -39,25 +39,24 @@ public class User extends BaseTimeEntity {
     private String walletAddress;
 
     @Getter
-    @Column(nullable = false, columnDefinition = "int default 0")
-    private int badgeCount;
+    private Integer badgeCount = 0;
 
     @ColumnDefault("0")
-    private int cumulativePoint;
+    private Integer cumulativePoint = 0;
 
     @Getter
     @ColumnDefault("0")
-    private int currentPoint;
+    private Integer currentPoint = 0;
 
     @Getter
     @ColumnDefault("0")
-    private int nftCount;
+    private Integer nftCount = 0;
 
     @ColumnDefault("true")
-    private boolean isAllowLocationInfo;
+    private Boolean isAllowLocationInfo;
 
     @ColumnDefault("true")
-    private boolean isAllowAdNotification;
+    private Boolean isAllowAdNotification;
 
     public void stamp(int point) {
         this.cumulativePoint += point;
@@ -89,7 +88,7 @@ public class User extends BaseTimeEntity {
     }
 
     public LocalDateTime getCreatedAt(){
-        return this.getCreatedAt();
+        return super.getCreatedAt();
     }
 
     public static User toEntity(String email, CreateUserRequest createUserRequest){

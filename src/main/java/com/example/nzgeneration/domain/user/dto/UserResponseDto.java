@@ -30,9 +30,9 @@ public class UserResponseDto {
     @NoArgsConstructor
     public static class UserMyPageDetailInfo{
         private String nickName;
-        private int currentPoint;
-        private int badgeCount;
-        private int nftCount;
+        private Integer currentPoint;
+        private Integer badgeCount;
+        private Integer nftCount;
 
         public static UserMyPageDetailInfo toDTO(User user){
             return UserMyPageDetailInfo.builder()

@@ -46,10 +46,12 @@ public class UserService {
         user.updateNickName(name);
     }
 
+    @Transactional
     public void updateWalletAddress(User user, String address){
         user.updateWalletAddress(address);
     }
 
+    @Transactional
     public void updateUserProfileImage(User user, MultipartFile image){
         String profileImgUrl = s3Service.uploadFile(image).getImgUrl();
         user.updateProfileImg(profileImgUrl);
@@ -58,7 +60,7 @@ public class UserService {
     public UserSigningSimpleInfo getDaysSigning(User user){
         LocalDateTime createdAt= user.getCreatedAt();
         LocalDateTime now = LocalDateTime.now();
-        long daysBetween = ChronoUnit.DAYS.between(createdAt, now);
+        long daysBetween = ChronoUnit.DAYS.between(createdAt, now)+1;
         return UserSigningSimpleInfo.toDTO(user, daysBetween);
     }
 
@@ -69,6 +71,7 @@ public class UserService {
     public UserEditingPageDetailInfo getEditPageInfo(User user){
         return UserEditingPageDetailInfo.toDTO(user);
     }
+
 
 
 }
