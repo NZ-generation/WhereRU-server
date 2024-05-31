@@ -13,7 +13,7 @@ public class TrashcanController {
 
     private final TrashcanService trashcanService;
 
-    @GetMapping
+    @GetMapping("api/trashcan")
     public ApiResponse<GetTrashcanResponse> getTrashcan(@PathVariable Long id) {
         return ApiResponse.onSuccess(trashcanService.getTrashcan(id));
     }

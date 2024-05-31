@@ -15,7 +15,7 @@ public class TrashcanReportController {
 
     private final TrashcanReportService trashcanReportService;
 
-    @PostMapping("trashcan")
+    @PostMapping("/api/trashcan")
     public ApiResponse<String> addTrashcanReport(
         @RequestBody AddTrashcanReportRequest addTrashcanReportRequest) {
         trashcanReportService.addTrashcanReport(addTrashcanReportRequest.getMapX(),
