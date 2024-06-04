@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,10 +38,10 @@ public class TrashcanController {
     @PostMapping("api/trashcan-info")
     @Operation(
         summary = "영역 내 쓰레기통 조회",
-        description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>"
+        description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>카테고리는 all로 줄 경우 전체 조회"
     )
     public ApiResponse<GetTrashcanResponses> getTrashcans(
-        @RequestBody GetTrashcansRequest request) {
+        @RequestBody GetTrashcansRequest request, @RequestParam TrashCategory trashCategory) {
 
         //다각형 객체 초기화
         Polygon polygon = null;
@@ -61,8 +62,7 @@ public class TrashcanController {
         } catch (IllegalArgumentException e) {
             throw new GeneralException(ErrorStatus._TRASHCAN_POLYGON_INVALID);
         }
-        return ApiResponse.onSuccess(trashcanService.getTrashcans(polygon));
+        return ApiResponse.onSuccess(trashcanService.getTrashcans(polygon, trashCategory));
     }
-
 
 }

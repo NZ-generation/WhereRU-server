@@ -3,6 +3,8 @@ package com.example.nzgeneration.domain.trashcan;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +27,7 @@ public class Trashcan extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "trash_category")
+    @Enumerated(EnumType.STRING)
     private TrashCategory trashCategory;
 
     @Column(name = "representative_image_url")

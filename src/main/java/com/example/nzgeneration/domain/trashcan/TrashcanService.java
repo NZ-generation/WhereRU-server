@@ -26,8 +26,20 @@ public class TrashcanService {
             .build();
     }
 
-    public GetTrashcanResponses getTrashcans(Polygon polygon) {
-        List<Trashcan> trashcans = trashcanRepository.findTrashcansByPolygon(polygon);
+    /**
+     * 원형 거점 내 쓰레기통 카테고리 별 조회
+     */
+    public GetTrashcanResponses getTrashcans(Polygon polygon, TrashCategory trashCategory) {
+        List<Trashcan> trashcans = null;
+
+        //전체 조회
+        if(trashCategory.equals(TrashCategory.ALL)) {
+            trashcans = trashcanRepository.findTrashcansByPolygon(polygon);
+        }
+        //카테고리별 조회
+        else {
+            trashcans = trashcanRepository.findTrashcansByPolygonAndTrashCategory(polygon, trashCategory);
+        }
         List<GetTrashcanResponse> trashcanResponses = trashcans.stream().map(trashcan ->
             GetTrashcanResponse.builder()
                 .id(trashcan.getId())
