@@ -7,6 +7,7 @@ import com.example.nzgeneration.global.common.response.ApiResponse;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Coordinate;
@@ -14,11 +15,13 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "쓰레기통 조회", description = "쓰레기통 조회 API")
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
@@ -31,16 +34,20 @@ public class TrashcanController {
         return ApiResponse.onSuccess(trashcanService.getTrashcan(id));
     }
 
-    @GetMapping("api/trashcan")
+    @PostMapping("api/trashcan-info")
     @Operation(
-        summary = "영역 내 쓰레기통 조회"
+        summary = "영역 내 쓰레기통 조회",
+        description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>"
     )
     public ApiResponse<GetTrashcanResponses> getTrashcans(
         @RequestBody GetTrashcansRequest request) {
+
+        //다각형 객체 초기화
         Polygon polygon = null;
 
         try {
             GeometryFactory geometryFactory = new GeometryFactory();
+            //request 객체에서 좌표를 가져와 Coordinate객체 리스트를 생성
             List<Coordinate> coordinatesPolygon = List.of(
                 new Coordinate(request.getTopLeftPoint().getX(), request.getTopLeftPoint().getY()),
                 new Coordinate(request.getBottomLeftPoint().getX(), request.getBottomLeftPoint().getY()),
@@ -56,4 +63,6 @@ public class TrashcanController {
         }
         return ApiResponse.onSuccess(trashcanService.getTrashcans(polygon));
     }
+
+
 }

@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
+
 @Entity
 @Getter
 @AllArgsConstructor
@@ -23,9 +24,12 @@ public class Trashcan extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "trash_category")
     private TrashCategory trashCategory;
 
+    @Column(name = "representative_image_url")
     private String representativeImageUrl;
 
+    @Column(name = "trashcan_point")
     private Point trashcanPoint;
 }
