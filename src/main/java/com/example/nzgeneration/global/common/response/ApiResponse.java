@@ -4,6 +4,8 @@ import com.example.nzgeneration.global.common.response.code.status.SuccessStatus
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -28,5 +30,8 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> onFailure(int code, String message, T data){
         return new ApiResponse<>(false, code, message, data);
     }
+
+
+
 
 }
