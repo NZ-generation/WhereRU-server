@@ -39,7 +39,7 @@ public class TrashcanController {
         return ApiResponse.onSuccess(trashcanService.getTrashcan(id));
     }
 
-    @PostMapping("api/trashcan-info")
+    @PostMapping("api/trashcans/")
     @Operation(
         summary = "영역 내 쓰레기통 조회",
         description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>카테고리는 all할 경우 전체 조회"
@@ -72,7 +72,7 @@ public class TrashcanController {
     @Operation(
         summary = "쓰레기통 스탬프 찍기"
     )
-    @PostMapping("/stamp")
+    @PostMapping("api/user/trashcan-stamp")
     public ApiResponse<String> addStamp(@CurrentUser User user) {
         userService.addStamp(user);
         return ApiResponse.onSuccess("스탬프 찍기 성공");
