@@ -8,6 +8,8 @@ import com.example.nzgeneration.global.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,4 +46,10 @@ public class AuthController {
         return ApiResponse.onSuccess(authService.updateUserToken(refreshToken));
     }
 
+    @GetMapping("/check-nickname/{nickname}")
+    @Operation(summary = "닉네임 중복 확인", description = "true : 사용가능한 닉네임, false : 사용 불가능한 닉네임")
+    public ApiResponse<Boolean> checkNickName(@PathVariable String nickName){
+        boolean status = authService.checkNickNameDuplicate(nickName);
+        return ApiResponse.onSuccess(status);
+    }
 }

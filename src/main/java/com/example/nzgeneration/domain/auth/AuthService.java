@@ -65,5 +65,11 @@ public class AuthService {
 
     }
 
-
+    @Transactional
+    public boolean checkNickNameDuplicate(String name){
+        if(userRepository.findByNickname(name).isPresent()){
+            return false;
+        }
+        return true;
+    }
 }
