@@ -3,9 +3,12 @@ package com.example.nzgeneration.domain.trashcan;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanRequestDto.GetTrashcansRequest;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponse;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponses;
+import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.domain.user.UserService;
 import com.example.nzgeneration.global.common.response.ApiResponse;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
+import com.example.nzgeneration.global.security.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TrashcanController {
 
     private final TrashcanService trashcanService;
+    private final UserService userService;
 
     @GetMapping("api/trashcan/{id}")
     @Operation(
@@ -38,7 +42,7 @@ public class TrashcanController {
     @PostMapping("api/trashcan-info")
     @Operation(
         summary = "영역 내 쓰레기통 조회",
-        description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>카테고리는 all로 줄 경우 전체 조회"
+        description = "영역의 네 좌표값으로 영역 내 거점을 조회.<br>영역의 좌표값은 위도와 경도 <br>카테고리는 all할 경우 전체 조회"
     )
     public ApiResponse<GetTrashcanResponses> getTrashcans(
         @RequestBody GetTrashcansRequest request, @RequestParam TrashCategory trashCategory) {
@@ -65,4 +69,12 @@ public class TrashcanController {
         return ApiResponse.onSuccess(trashcanService.getTrashcans(polygon, trashCategory));
     }
 
+    @Operation(
+        summary = "쓰레기통 스탬프 찍기"
+    )
+    @PostMapping("/stamp")
+    public ApiResponse<String> addStamp(@CurrentUser User user) {
+        userService.addStamp(user);
+        return ApiResponse.onSuccess("스탬프 찍기 성공");
+    }
 }

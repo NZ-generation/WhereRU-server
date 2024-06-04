@@ -7,6 +7,7 @@ import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserSigningSimpl
 import com.example.nzgeneration.global.common.response.ApiResponse;
 import com.example.nzgeneration.global.security.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,20 +21,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/user")
+@Tag(name = "유저 관련", description = "유저 관련 API")
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/stamp")
-    public ApiResponse<String> addStamp(@CurrentUser User user) {
-        userService.addStamp(user);
-        return ApiResponse.onSuccess("스탬프 찍기 성공");
-    }
-    @GetMapping("/check-nickname/{nickName}")
-    @Operation(summary = "닉네임 중복 확인", description = "true : 사용가능한 닉네임, false : 사용 불가능한 닉네임")
-    public ApiResponse<Boolean> checkNickName(@PathVariable String nickName){
-        boolean status = userService.checkNickNameDuplicate(nickName);
-        return ApiResponse.onSuccess(status);
-    }
     @PatchMapping("/nickname/{nickName}")
     @Operation(summary = "닉네임 수정")
     public ApiResponse<String> updateNickName(@CurrentUser User user, @PathVariable String nickName){
