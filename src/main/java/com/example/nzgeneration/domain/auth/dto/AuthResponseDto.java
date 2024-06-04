@@ -1,6 +1,5 @@
 package com.example.nzgeneration.domain.auth.dto;
 
-import com.example.nzgeneration.domain.auth.enums.ResponseType;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import java.util.List;
@@ -17,14 +16,32 @@ public class AuthResponseDto {
     public static class LoginSimpleInfo{
         private String accessToken;
         private String refreshToken;
-        private ResponseType responseType;
+        private Boolean isSignUp;
 
-        public static LoginSimpleInfo toDTO(String accessToken, String refreshToken, ResponseType responseType) {
+        public static LoginSimpleInfo toDTO(String accessToken, String refreshToken, boolean isSignUp) {
             return LoginSimpleInfo.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .responseType(responseType)
+                .isSignUp(isSignUp)
                 .build();
+
+        }
+
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class TokenRefreshSimpleInfo{
+        private String accessToken;
+        private String refreshToken;
+
+        public static TokenRefreshSimpleInfo toDTO(String accessToken, String refreshToken) {
+            return TokenRefreshSimpleInfo.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .build();
 
         }
 

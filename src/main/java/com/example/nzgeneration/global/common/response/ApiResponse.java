@@ -31,16 +31,6 @@ public class ApiResponse<T> {
         return new ApiResponse<>(false, code, message, data);
     }
 
-    // result 필드를 JSON 형식으로 변환하는 메소드
-    public String getResultAsJson() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            return objectMapper.writeValueAsString(this.result);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 
 
