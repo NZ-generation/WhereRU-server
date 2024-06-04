@@ -1,5 +1,6 @@
 package com.example.nzgeneration.domain.user;
 
+import com.example.nzgeneration.domain.auth.AuthService;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserSigningSimpleInfo;
@@ -19,6 +20,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final S3Service s3Service;
+    private final AuthService authService;
 
     @Transactional
     public void addStamp(User user) {
@@ -31,16 +33,8 @@ public class UserService {
     }
 
     @Transactional
-    public boolean checkNickNameDuplicate(String name){
-        if(userRepository.findByNickname(name).isPresent()){
-            return false;
-        }
-        return true;
-    }
-
-    @Transactional
     public void updateNickName(User user, String name){
-        if(!checkNickNameDuplicate(name)){
+        if(!authService.checkNickNameDuplicate(name)){
             throw new GeneralException(ErrorStatus._DUPLICATE_NICKNAME);
         }
         user.updateNickName(name);

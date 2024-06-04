@@ -1,6 +1,7 @@
 package com.example.nzgeneration.domain.trashcan;
 
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -24,8 +26,13 @@ public class Trashcan extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "trash_category")
     @Enumerated(EnumType.STRING)
     private TrashCategory trashCategory;
 
+    @Column(name = "representative_image_url")
     private String representativeImageUrl;
+
+    @Column(name = "trashcan_point")
+    private Point trashcanPoint;
 }
