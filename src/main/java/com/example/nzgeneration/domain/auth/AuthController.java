@@ -48,8 +48,8 @@ public class AuthController {
 
     @GetMapping("/check-nickname/{nickname}")
     @Operation(summary = "닉네임 중복 확인", description = "true : 사용가능한 닉네임, false : 사용 불가능한 닉네임")
-    public ApiResponse<Boolean> checkNickName(@PathVariable String nickName){
-        boolean status = authService.checkNickNameDuplicate(nickName);
+    public ApiResponse<Boolean> checkNickName(@PathVariable String nickname){
+        boolean status = authService.checkNickNameDuplicate(nickname);
         return ApiResponse.onSuccess(status);
     }
 }
