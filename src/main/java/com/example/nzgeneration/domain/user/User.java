@@ -3,7 +3,6 @@ package com.example.nzgeneration.domain.user;
 
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -51,6 +50,9 @@ public class User extends BaseTimeEntity {
 
     @ColumnDefault("true")
     private Boolean isAllowAdNotification;
+
+    @ColumnDefault("0")
+    private Long ranking;
 
     public void stamp(int point) {
         this.cumulativePoint += point;
