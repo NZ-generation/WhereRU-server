@@ -89,7 +89,7 @@ public class User extends BaseTimeEntity {
         return User.builder()
             .nickname(createUserRequest.getNickName())
             .email(email)
-            .profileImageUrl(createUserRequest.getProfileImgUrl())
+            .profileImageUrl(null)
             .walletAddress(createUserRequest.getWalletAddress())
             .isAllowAdNotification(createUserRequest.getIsAllowAdInfo())
             .isAllowLocationInfo(createUserRequest.getIsAllowLocationInfo())

@@ -13,7 +13,6 @@ public class AuthRequestDto {
         private String token;
         private String nickName;
         private String walletAddress;
-        private String profileImgUrl;
         private Boolean isAllowLocationInfo;
         private Boolean isAllowAdInfo;
 
