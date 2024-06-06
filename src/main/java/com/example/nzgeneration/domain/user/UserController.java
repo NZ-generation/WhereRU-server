@@ -62,7 +62,6 @@ public class UserController {
     public ApiResponse<UserEditingPageDetailInfo> getEditPage(@CurrentUser User user){
         return ApiResponse.onSuccess(userService.getEditPageInfo(user));
     }
-
     @DeleteMapping("/{username}")
     @Operation(summary = "유저 이름으로 유저 삭제 Api(개발용)")
     public ApiResponse<String> deleteUser(@PathVariable String username){
@@ -71,6 +70,14 @@ public class UserController {
     }
 
 
+    @GetMapping("/ranking")
+    @Operation(
+        summary = "랭킹 조회",
+        description = "1위, 2위, 3위 정보와 내 순위 주변 정보를 나눴습니다"
+    )
+    public ApiResponse<Object> getRanking(@CurrentUser User user) {
+        return ApiResponse.onSuccess(userService.getRanking(user));
+    }
 
 
 }
