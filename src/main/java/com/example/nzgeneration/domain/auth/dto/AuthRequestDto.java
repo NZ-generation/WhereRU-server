@@ -11,6 +11,7 @@ public class AuthRequestDto {
     @AllArgsConstructor
     public static class CreateUserRequest {
         private String token;
+        private String appleRefreshToken;
         private String nickName;
         private String walletAddress;
         private Boolean isAllowLocationInfo;
