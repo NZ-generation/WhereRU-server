@@ -3,6 +3,7 @@ package com.example.nzgeneration.domain.trashcanreport;
 import com.example.nzgeneration.domain.trashcan.TrashCategory;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import com.example.nzgeneration.domain.user.User;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -15,6 +16,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @AllArgsConstructor
@@ -27,10 +30,14 @@ public class TrashcanReport extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
+    @Nullable
     private User trashcanReportUser;
 
     @Enumerated(EnumType.STRING)
     private TrashCategory trashCategory;
 
     private String trashcanReportImageUrl;
+
+
 }

@@ -9,6 +9,7 @@ import com.example.nzgeneration.global.security.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +61,13 @@ public class UserController {
     @Operation(summary = "수정페이지 조회")
     public ApiResponse<UserEditingPageDetailInfo> getEditPage(@CurrentUser User user){
         return ApiResponse.onSuccess(userService.getEditPageInfo(user));
+    }
+
+    @DeleteMapping("/{username}")
+    @Operation(summary = "유저 이름으로 유저 삭제 Api(개발용)")
+    public ApiResponse<String> deleteUser(@PathVariable String username){
+        userService.deleteUserWithName(username);
+        return ApiResponse.onSuccess("삭제 완료");
     }
 
 

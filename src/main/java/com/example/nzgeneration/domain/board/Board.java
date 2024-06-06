@@ -3,6 +3,7 @@ package com.example.nzgeneration.domain.board;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import com.example.nzgeneration.domain.nft.Nft;
 import com.example.nzgeneration.domain.user.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -25,9 +27,6 @@ public class Board extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Nft nft;
+    private Long likeCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User uploadUser;
 }
