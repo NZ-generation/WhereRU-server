@@ -30,6 +30,7 @@ public class AuthService {
         if(optionalMember.isPresent()){ //로그인 로직
             accessToken = jwtTokenProvider.createAccessToken(optionalMember.get().getPayload());
             refreshToken = jwtTokenProvider.createRefreshToken(optionalMember.get().getId());
+            optionalMember.get().updateToken(accessToken, refreshToken);
             return LoginSimpleInfo.toDTO(accessToken, refreshToken, true);
         }
         accessToken = jwtTokenProvider.generateTempToken(email);
