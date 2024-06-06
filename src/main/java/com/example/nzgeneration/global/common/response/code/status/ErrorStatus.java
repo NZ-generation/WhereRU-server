@@ -38,7 +38,8 @@ public enum ErrorStatus implements BaseErrorCode {
     _TRASHCAN_COORDINATE_INVALID(HttpStatus.CONFLICT, 4042, "쓰레기통 좌표가 유효하지 않습니다."),
     _TRASHCAN_POLYGON_INVALID(HttpStatus.CONFLICT, 4043, "영역이 잘못되었습니다."),
 
-    ;
+    //배너 관련
+    _EMPTY_BANNER(HttpStatus.CONFLICT, 4051,"배너가 존재하지 않습니다." );
 
 
     private final HttpStatus httpStatus;
