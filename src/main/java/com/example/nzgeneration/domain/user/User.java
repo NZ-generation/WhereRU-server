@@ -61,6 +61,7 @@ public class User extends BaseTimeEntity {
 
     private String accessToken;
     private String refreshToken;
+    private String appleRefreshToken;
 
     public void updateToken(String accessToken, String refreshToken){
         this.accessToken = accessToken;
@@ -95,6 +96,7 @@ public class User extends BaseTimeEntity {
             .walletAddress(createUserRequest.getWalletAddress())
             .isAllowAdNotification(createUserRequest.getIsAllowAdInfo())
             .isAllowLocationInfo(createUserRequest.getIsAllowLocationInfo())
+            .appleRefreshToken(createUserRequest.getAppleRefreshToken())
             .badgeCount(0)
             .cumulativePoint(0)
             .currentPoint(0)
