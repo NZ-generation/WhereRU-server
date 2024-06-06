@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +28,8 @@ public class Banner extends BaseTimeEntity {
     private String subTitle;
 
     private String BannerUrl;
+
+    private LocalDate startDate;
+
+    private LocalDate endDate;
 }

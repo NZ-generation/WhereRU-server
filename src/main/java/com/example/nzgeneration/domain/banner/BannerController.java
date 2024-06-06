@@ -22,7 +22,7 @@ public class BannerController {
     @Operation(
         summary = "배너 단일 조회"
     )
-    public ApiResponse<BannerResponse> getBanner(@CurrentUser User user) {
+    public ApiResponse<BannerResponse> getBanner() {
         return ApiResponse.onSuccess(bannerService.getBanner());
     }
 

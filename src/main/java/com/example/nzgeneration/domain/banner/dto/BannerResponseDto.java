@@ -16,5 +16,6 @@ public class BannerResponseDto {
         String title;
         String subTitle;
         String bannerUrl;
+        String displayPeriod;
     }
 }
