@@ -1,6 +1,14 @@
 package com.example.nzgeneration.domain.user;
 
 import com.example.nzgeneration.domain.auth.AuthService;
+import com.example.nzgeneration.domain.memberbadge.MemberBadge;
+import com.example.nzgeneration.domain.memberbadge.MemberBadgeRepository;
+import com.example.nzgeneration.domain.nft.Nft;
+import com.example.nzgeneration.domain.nft.NftRepository;
+import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReport;
+import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportRepository;
+import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
+import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
@@ -18,6 +26,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+
+
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -25,6 +36,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final S3Service s3Service;
     private final AuthService authService;
+    private final TrashcanReportRepository trashcanReportRepository;
+    private final TrashcanErrorReportRepository trashcanErrorReportRepository;
+    private final MemberBadgeRepository memberBadgeRepository;
+    private final NftRepository nftRepository;
+
 
     @Transactional
     public void addStamp(User user) {
@@ -68,6 +84,49 @@ public class UserService {
 
     public UserEditingPageDetailInfo getEditPageInfo(User user) {
         return UserEditingPageDetailInfo.toDTO(user);
+    }
+
+    public void deleteUserWithName(String userName){
+        User user = userRepository.findByNickname(userName)
+            .orElseThrow(()-> new GeneralException(ErrorStatus._EMPTY_USER));
+
+        List<TrashcanReport> reportList = trashcanReportRepository.findByTrashcanReportUser(user);
+        List<TrashcanErrorReport> errorReportList = trashcanErrorReportRepository.findByUser(user);
+        List<Nft> nftList = nftRepository.findByUser(user);
+        List<MemberBadge> memberBadgesList = memberBadgeRepository.findByUser(user);
+
+        deleteTrashcanReportByUser(reportList);
+        deleteTrashcanErrorReportByUser(errorReportList);
+        deleteNftByUser(nftList);
+        deleteMemberBadgeByUser(memberBadgesList);
+
+        userRepository.delete(user);
+    }
+
+    @Transactional
+    public void deleteTrashcanReportByUser( List<TrashcanReport> list){
+        for(TrashcanReport report : list){
+            report.setTrashcanReportUser(null);
+            trashcanReportRepository.save(report);
+        }
+    }
+
+    @Transactional
+    public void deleteTrashcanErrorReportByUser(List<TrashcanErrorReport> list){
+        for(TrashcanErrorReport report : list){
+            report.setUser(null);
+            trashcanErrorReportRepository.save(report);
+        }
+    }
+
+    @Transactional
+    public void deleteMemberBadgeByUser(List<MemberBadge> list){
+        memberBadgeRepository.deleteAll(list);
+    }
+
+    @Transactional
+    public void deleteNftByUser(List<Nft> list){
+        nftRepository.deleteAll(list);
     }
 
 

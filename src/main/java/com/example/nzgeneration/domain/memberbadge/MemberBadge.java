@@ -3,6 +3,7 @@ package com.example.nzgeneration.domain.memberbadge;
 import com.example.nzgeneration.domain.badge.Badge;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.utils.BaseTimeEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class MemberBadge extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)

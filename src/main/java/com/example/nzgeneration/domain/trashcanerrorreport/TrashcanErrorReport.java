@@ -2,6 +2,7 @@ package com.example.nzgeneration.domain.trashcanerrorreport;
 
 import com.example.nzgeneration.domain.trashcan.Trashcan;
 import com.example.nzgeneration.domain.user.User;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
@@ -24,6 +26,8 @@ public class TrashcanErrorReport {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
+    @Nullable
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
