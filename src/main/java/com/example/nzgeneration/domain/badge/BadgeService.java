@@ -5,6 +5,7 @@ import com.example.nzgeneration.domain.memberbadge.MemberBadgeRepository;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserBadgeInfo;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -29,5 +30,14 @@ public class BadgeService {
         return BadgeInfo.builder()
             .userBadgeInfoList(userBadgeInfoList)
             .build();
+    }
+
+    //첫 스탬프 뱃지 추가
+    @Transactional
+    public void giveMemberFirstBadge(User user) {
+        Badge badge = badgeRepository.findById(1L).get();
+        MemberBadge memberBadge = MemberBadge.toEntity(user, badge);
+
+        memberBadgeRepository.save(memberBadge);
     }
 }

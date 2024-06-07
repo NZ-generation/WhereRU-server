@@ -1,6 +1,7 @@
 package com.example.nzgeneration.domain.user;
 
 import com.example.nzgeneration.domain.auth.AuthService;
+import com.example.nzgeneration.domain.badge.BadgeService;
 import com.example.nzgeneration.domain.memberbadge.MemberBadge;
 import com.example.nzgeneration.domain.memberbadge.MemberBadgeRepository;
 import com.example.nzgeneration.domain.nft.Nft;
@@ -41,15 +42,12 @@ public class UserService {
     private final TrashcanErrorReportRepository trashcanErrorReportRepository;
     private final MemberBadgeRepository memberBadgeRepository;
     private final NftRepository nftRepository;
+    private final BadgeService badgeService;
 
 
     @Transactional
     public void addStamp(User user) {
-        //TODO - 현재 멤버 불러오기
-//        User user = userRepository.findById(1L)
-//            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_USER));
-
-        //TODO - 포인트 상수, 기준 정하기
+        badgeService.giveMemberFirstBadge(user);
         user.stamp(20);
     }
 

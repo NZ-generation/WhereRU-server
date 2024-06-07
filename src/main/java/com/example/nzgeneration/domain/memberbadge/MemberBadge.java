@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -30,4 +31,12 @@ public class MemberBadge extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
+
+    @Builder
+    public static MemberBadge toEntity(User user, Badge badge) {
+        return MemberBadge.builder()
+            .user(user)
+            .badge(badge)
+            .build();
+    }
 }
