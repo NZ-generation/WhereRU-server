@@ -103,5 +103,24 @@ public class UserResponseDto {
         private Boolean isCurrentUser;
     }
 
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BadgeInfo {
+
+        List<UserBadgeInfo> userBadgeInfoList;
+    }
+
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserBadgeInfo {
+
+        private String badgeName;
+        private String badgeImageUrl;
+    }
 
 }

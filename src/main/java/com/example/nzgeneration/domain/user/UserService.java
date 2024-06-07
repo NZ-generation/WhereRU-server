@@ -9,6 +9,7 @@ import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReport;
 import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportRepository;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
+import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
