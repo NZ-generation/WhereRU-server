@@ -5,6 +5,8 @@ import com.example.nzgeneration.domain.memberbadge.MemberBadgeRepository;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserBadgeInfo;
+import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
+import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +38,12 @@ public class BadgeService {
     @Transactional
     public void giveMemberFirstBadge(User user) {
         Badge badge = badgeRepository.findById(1L).get();
+
+        int isPresent = memberBadgeRepository.countByUserAndBadge(user, badge);
+
+        if(isPresent != 0) {
+            throw  new GeneralException(ErrorStatus._DUPLICATED_BADGE);
+        }
         MemberBadge memberBadge = MemberBadge.toEntity(user, badge);
 
         memberBadgeRepository.save(memberBadge);

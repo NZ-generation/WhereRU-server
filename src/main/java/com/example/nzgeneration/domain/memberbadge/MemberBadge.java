@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Builder
 public class MemberBadge extends BaseTimeEntity {
 
     @Id
@@ -32,7 +33,6 @@ public class MemberBadge extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Badge badge;
 
-    @Builder
     public static MemberBadge toEntity(User user, Badge badge) {
         return MemberBadge.builder()
             .user(user)
