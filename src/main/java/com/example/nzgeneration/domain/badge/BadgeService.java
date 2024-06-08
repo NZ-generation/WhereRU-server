@@ -41,11 +41,9 @@ public class BadgeService {
 
         int isPresent = memberBadgeRepository.countByUserAndBadge(user, badge);
 
-        if(isPresent != 0) {
-            throw  new GeneralException(ErrorStatus._DUPLICATED_BADGE);
+        if(isPresent == 0) {
+            MemberBadge memberBadge = MemberBadge.toEntity(user, badge);
+            memberBadgeRepository.save(memberBadge);
         }
-        MemberBadge memberBadge = MemberBadge.toEntity(user, badge);
-
-        memberBadgeRepository.save(memberBadge);
     }
 }
