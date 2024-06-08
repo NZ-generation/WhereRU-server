@@ -8,19 +8,25 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCDecodePayload;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 @Configuration
@@ -28,6 +34,21 @@ import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCDecodePayloa
 @Service
 @Slf4j
 public class JwtOIDCProvider {
+
+    @Value("${social-login.provider.apple.key-id}")
+    private String keyId;
+
+    @Value("${social-login.provider.apple.team-id}")
+    private String teamId;
+
+    @Value("${social-login.provider.apple.issuer}")
+    private String issuer;
+
+    @Value("${social-login.provider.apple.client-id}")
+    private String clientId;
+
+    @Value("${social-login.provider.apple.private-key}")
+    private String privateKey;
 
 
     //idToken의 header와 payload 받아옴
@@ -98,5 +119,21 @@ public class JwtOIDCProvider {
         RSAPublicKeySpec keySpec = new RSAPublicKeySpec(n, e);
         return keyFactory.generatePublic(keySpec);
     }
+    //apple Secret Key 생성 함수
+    public String createSecretKey(){
+        Date expirationDate = Date.from(LocalDateTime.now().plusDays(30).atZone(
+            ZoneId.systemDefault()).toInstant());
+        return Jwts.builder()
+            .setHeaderParam("alg", "ES256")
+            .setHeaderParam("kid", keyId )
+            .setIssuer(teamId)
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(expirationDate)
+            .setAudience(issuer)
+            .setSubject(clientId)
+            .signWith(SignatureAlgorithm.ES256, privateKey)
+            .compact();
+    }
+
 
 }

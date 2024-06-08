@@ -3,6 +3,7 @@ package com.example.nzgeneration.domain.auth.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 public class AuthRequestDto {
 
@@ -24,6 +25,17 @@ public class AuthRequestDto {
     @AllArgsConstructor
     public static class UserIdTokenRequest{
         private String idToken;
+
+    }
+
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TokenRevokeRequest{
+        private String client_id;
+        private String client_secret;
+        private String token;
+        private String token_type_hint;
 
     }
 

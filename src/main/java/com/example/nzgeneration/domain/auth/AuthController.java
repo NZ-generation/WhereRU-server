@@ -4,7 +4,9 @@ import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.UserIdTokenRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.LoginSimpleInfo;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.TokenRefreshSimpleInfo;
+import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.response.ApiResponse;
+import com.example.nzgeneration.global.security.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +53,12 @@ public class AuthController {
     public ApiResponse<Boolean> checkNickName(@PathVariable String nickname){
         boolean status = authService.checkNickNameDuplicate(nickname);
         return ApiResponse.onSuccess(status);
+    }
+
+    @PostMapping("/delete-account")
+    @Operation(summary = "유저 탈퇴")
+    public ApiResponse<String> deleteAcccount(@CurrentUser User user){
+        authService.deleteAccount(user);
+        return ApiResponse.onSuccess("탈퇴 완료되었습니다.");
     }
 }

@@ -1,11 +1,13 @@
 package com.example.nzgeneration.domain.auth;
 
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest;
+import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.TokenRevokeRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.LoginSimpleInfo;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCDecodePayload;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.TokenRefreshSimpleInfo;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.UserRepository;
+import com.example.nzgeneration.domain.user.UserService;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import com.example.nzgeneration.global.security.JwtTokenProvider;
@@ -21,6 +23,8 @@ public class AuthService {
     private final AppleOauthHelper appleOauthHelper;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+
     @Transactional
     public LoginSimpleInfo login(String idToken){
         OIDCDecodePayload oidcDecodePayload = appleOauthHelper.getOIDCDecodePayload(idToken);
@@ -72,5 +76,10 @@ public class AuthService {
             return false;
         }
         return true;
+    }
+
+    public void deleteAccount(User user){
+        appleOauthHelper.revokeToken(user.getAppleRefreshToken());
+        userService.deleteUserWithName(user.getNickname());
     }
 }
