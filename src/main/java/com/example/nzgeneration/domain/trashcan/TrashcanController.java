@@ -70,7 +70,8 @@ public class TrashcanController {
     }
 
     @Operation(
-        summary = "쓰레기통 스탬프 찍기"
+        summary = "쓰레기통 스탬프 찍기",
+        description = "6/8 - 아직 스탬프에 제한은 X, 첫 스탬프를 찍었을 시 뱃지 증정"
     )
     @PostMapping("api/user/trashcan-stamp")
     public ApiResponse<String> addStamp(@CurrentUser User user) {

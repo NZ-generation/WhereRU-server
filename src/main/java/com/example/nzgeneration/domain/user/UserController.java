@@ -1,6 +1,8 @@
 package com.example.nzgeneration.domain.user;
 
 
+import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
+import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserSigningSimpleInfo;
@@ -75,9 +77,8 @@ public class UserController {
         summary = "랭킹 조회",
         description = "1위, 2위, 3위 정보와 내 순위 주변 정보를 나눴습니다"
     )
-    public ApiResponse<Object> getRanking(@CurrentUser User user) {
+    public ApiResponse<RankingInfo> getRanking(@CurrentUser User user) {
         return ApiResponse.onSuccess(userService.getRanking(user));
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.example.nzgeneration.domain.trashcan;
 
+import com.example.nzgeneration.domain.badge.BadgeService;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponse;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponses;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
