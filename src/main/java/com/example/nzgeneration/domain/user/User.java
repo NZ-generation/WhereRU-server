@@ -79,6 +79,8 @@ public class User extends BaseTimeEntity {
         this.profileImageUrl = imgUrl;
     }
 
+    public void updateBadgeCount() {this.badgeCount++;}
+
     public String getPayload(){
         return this.getId()+"+nz";
     }

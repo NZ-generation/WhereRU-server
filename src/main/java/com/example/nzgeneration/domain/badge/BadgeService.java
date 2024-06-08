@@ -43,6 +43,7 @@ public class BadgeService {
 
         if(isPresent == 0) {
             MemberBadge memberBadge = MemberBadge.toEntity(user, badge);
+            user.updateBadgeCount();
             memberBadgeRepository.save(memberBadge);
         }
     }
