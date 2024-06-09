@@ -14,4 +14,6 @@ public interface TrashcanRepository extends JpaRepository<Trashcan, Long> {
 
     @Query(value = "SELECT tc  FROM Trashcan tc WHERE ST_CONTAINS(:polygon, tc.trashcanPoint)")
     List<Trashcan> findTrashcansByPolygon(@Param("polygon") Polygon polygon);
+
+    int countByTrashCategory(TrashCategory trashCategory);
 }

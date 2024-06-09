@@ -1,6 +1,8 @@
 package com.example.nzgeneration.domain.retool;
 
+import com.example.nzgeneration.domain.retool.dto.GetPercentCategoryResponse;
 import com.example.nzgeneration.domain.retool.dto.GetReportCountResponse;
+import com.example.nzgeneration.domain.trashcan.TrashcanService;
 import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportService;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportService;
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ public class RetoolService {
 
     private final TrashcanReportService trashcanReportService;
     private final TrashcanErrorReportService trashcanErrorReportService;
+    private final TrashcanService trashcanService;
 
     public GetReportCountResponse findReportCount() {
         int reportCount = trashcanReportService.findCountReport();
@@ -34,7 +37,6 @@ public class RetoolService {
             currentDate = currentDate.minusMonths(1);
         }
 
-
         return GetReportCountResponse.builder()
             .reportCount(reportCount)
             .errorCount(errorCount)
@@ -42,5 +44,9 @@ public class RetoolService {
             .errorCountList(errorCountList)
             .month(month)
             .build();
+    }
+
+    public GetPercentCategoryResponse findPercentByCategory() {
+        return trashcanService.findPercentByCategory();
     }
 }

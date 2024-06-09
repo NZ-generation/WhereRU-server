@@ -1,5 +1,6 @@
 package com.example.nzgeneration.domain.retool;
 
+import com.example.nzgeneration.domain.retool.dto.GetPercentCategoryResponse;
 import com.example.nzgeneration.domain.retool.dto.GetReportCountResponse;
 import com.example.nzgeneration.global.common.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,4 +22,8 @@ public class RetoolController {
         return ApiResponse.onSuccess(retoolService.findReportCount());
     }
 
+    @GetMapping("/percent/category")
+    public ApiResponse<GetPercentCategoryResponse> findPercentByCategory() {
+        return ApiResponse.onSuccess(retoolService.findPercentByCategory());
+    }
 }
