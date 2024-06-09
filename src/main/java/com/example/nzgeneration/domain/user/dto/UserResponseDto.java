@@ -34,6 +34,7 @@ public class UserResponseDto {
     public static class UserMyPageDetailInfo {
 
         private String nickName;
+        private String profileImgUrl;
         private Integer currentPoint;
         private Integer badgeCount;
         private Integer nftCount;
@@ -41,6 +42,7 @@ public class UserResponseDto {
         public static UserMyPageDetailInfo toDTO(User user) {
             return UserMyPageDetailInfo.builder()
                 .nickName(user.getNickname())
+                .profileImgUrl(user.getProfileImageUrl())
                 .badgeCount(user.getBadgeCount())
                 .currentPoint(user.getCurrentPoint())
                 .nftCount(user.getNftCount())
@@ -103,5 +105,24 @@ public class UserResponseDto {
         private Boolean isCurrentUser;
     }
 
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class BadgeInfo {
+
+        List<UserBadgeInfo> userBadgeInfoList;
+    }
+
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class UserBadgeInfo {
+
+        private String badgeName;
+        private String badgeImageUrl;
+    }
 
 }

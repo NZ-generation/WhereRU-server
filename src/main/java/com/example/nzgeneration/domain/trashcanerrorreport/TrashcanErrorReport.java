@@ -2,6 +2,7 @@ package com.example.nzgeneration.domain.trashcanerrorreport;
 
 import com.example.nzgeneration.domain.trashcan.Trashcan;
 import com.example.nzgeneration.domain.user.User;
+import com.example.nzgeneration.global.utils.BaseTimeEntity;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -19,7 +20,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class TrashcanErrorReport {
+public class TrashcanErrorReport extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
