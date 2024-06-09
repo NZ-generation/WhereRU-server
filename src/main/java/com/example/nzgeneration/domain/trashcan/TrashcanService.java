@@ -1,17 +1,19 @@
 package com.example.nzgeneration.domain.trashcan;
 
-import com.example.nzgeneration.domain.badge.BadgeService;
 import com.example.nzgeneration.domain.retool.dto.GetPercentCategoryResponse;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponse;
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponses;
+import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
+import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
-import java.lang.reflect.Array;
+import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class TrashcanService {
 
     private final TrashcanRepository trashcanRepository;
+    private final TrashcanReportRepository trashcanReportRepository;
+    private final GeometryFactory geometryFactory = new GeometryFactory();
 
     public GetTrashcanResponse getTrashcan(Long id) {
         Trashcan trashcan = trashcanRepository.findById(id)
@@ -86,5 +90,22 @@ public class TrashcanService {
             .labels(labels)
             .values(percentages)
             .build();
+    }
+
+    @Transactional
+    public void addTrashcan(Long reportId) {
+
+        TrashcanReport trashcanReport = trashcanReportRepository.findById(reportId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_TRASHCAN_REPORT));
+
+        org.locationtech.jts.geom.Point trashcanPoint = geometryFactory.createPoint(new Coordinate(trashcanReport.getX(), trashcanReport.getY()));
+
+        Trashcan trashcan = Trashcan.builder()
+            .trashCategory(trashcanReport.getTrashCategory())
+            .representativeImageUrl(trashcanReport.getTrashcanReportImageUrl())
+            .trashcanPoint(trashcanPoint)
+            .build();
+
+        trashcanRepository.save(trashcan);
     }
 }

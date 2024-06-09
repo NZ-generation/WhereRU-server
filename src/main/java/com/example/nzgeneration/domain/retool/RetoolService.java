@@ -2,9 +2,12 @@ package com.example.nzgeneration.domain.retool;
 
 import com.example.nzgeneration.domain.retool.dto.GetPercentCategoryResponse;
 import com.example.nzgeneration.domain.retool.dto.GetReportCountResponse;
+import com.example.nzgeneration.domain.trashcan.Trashcan;
 import com.example.nzgeneration.domain.trashcan.TrashcanService;
 import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportService;
+import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportService;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,5 +51,18 @@ public class RetoolService {
 
     public GetPercentCategoryResponse findPercentByCategory() {
         return trashcanService.findPercentByCategory();
+    }
+
+    //
+    @Transactional
+    public void approveReport(Long reportId) {
+        trashcanReportService.changeStatusToApprove(reportId);
+        trashcanService.addTrashcan(reportId);
+
+    }
+
+    @Transactional
+    public void rejectReport(Long reportId) {
+        trashcanReportService.changeStatusToRejected(reportId);
     }
 }
