@@ -34,4 +34,8 @@ public class TrashcanErrorReport extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Trashcan trashcan;
 
+    private double x;
+
+    private double y;
+
 }
