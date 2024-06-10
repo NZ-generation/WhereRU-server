@@ -11,6 +11,7 @@ import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportRe
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
+import com.example.nzgeneration.domain.user.dto.UserResponseDto.PatchProfileImg;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
@@ -65,9 +66,10 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserProfileImage(User user, MultipartFile image) {
+    public PatchProfileImg updateUserProfileImage(User user, MultipartFile image) {
         String profileImgUrl = s3Service.uploadFile(image).getImgUrl();
         user.updateProfileImg(profileImgUrl);
+        return PatchProfileImg.toDTO(profileImgUrl);
     }
 
     public UserSigningSimpleInfo getDaysSigning(User user) {

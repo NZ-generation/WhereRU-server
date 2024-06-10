@@ -125,4 +125,20 @@ public class UserResponseDto {
         private String badgeImageUrl;
     }
 
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class PatchProfileImg{
+        private String profileImg;
+
+        public static PatchProfileImg toDTO(String profileImg){
+            return PatchProfileImg.builder()
+                .profileImg(profileImg)
+                .build();
+
+        }
+
+    }
+
 }
