@@ -60,8 +60,8 @@ public class AuthController {
         authService.deleteAccount(user);
         return ApiResponse.onSuccess("탈퇴 완료되었습니다.");
     }
-    @GetMapping("/secret-key")
-    public String getSecretKey(){
-        return authService.getSecretKey();
-    }
+//    @GetMapping("/secret-key")
+//    public String getSecretKey(){
+//        return authService.getSecretKey();
+//    }
 }

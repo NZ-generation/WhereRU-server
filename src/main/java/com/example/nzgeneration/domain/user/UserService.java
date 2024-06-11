@@ -10,7 +10,6 @@ import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReport;
 import com.example.nzgeneration.domain.trashcanerrorreport.TrashcanErrorReportRepository;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
-import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.PatchProfileImg;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
@@ -38,7 +37,6 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final S3Service s3Service;
-    private final AuthService authService;
     private final TrashcanReportRepository trashcanReportRepository;
     private final TrashcanErrorReportRepository trashcanErrorReportRepository;
     private final MemberBadgeRepository memberBadgeRepository;
@@ -54,10 +52,18 @@ public class UserService {
 
     @Transactional
     public void updateNickName(User user, String name) {
-        if (!authService.checkNickNameDuplicate(name)) {
+        if (checkNickNameDuplicate(name)) {
             throw new GeneralException(ErrorStatus._DUPLICATE_NICKNAME);
         }
         user.updateNickName(name);
+    }
+
+    @Transactional
+    public boolean checkNickNameDuplicate(String name){
+        if(userRepository.findByNickname(name).isPresent()){
+            return false;
+        }
+        return true;
     }
 
     @Transactional

@@ -82,7 +82,7 @@ public class AuthService {
         userService.deleteUserWithName(user.getNickname());
     }
 
-    public String getSecretKey(){
-        return jwtOIDCProvider.createSecretKey();
-    }
+//    public String getSecretKey() {
+//        return jwtOIDCProvider.createSecretKey();
+//    }
 }
