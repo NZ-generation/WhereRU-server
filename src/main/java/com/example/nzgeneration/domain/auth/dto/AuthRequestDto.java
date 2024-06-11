@@ -24,7 +24,7 @@ public class AuthRequestDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserIdTokenRequest{
-        private String idToken;
+        private String authCode;
 
     }
 
@@ -36,6 +36,14 @@ public class AuthRequestDto {
         private String client_secret;
         private String token;
         private String token_type_hint;
+
+    }
+
+    public static class GenerateTokenRequest{
+        private String client_id;
+        private String client_secret;
+        private String code;
+        private String grant_type;
 
     }
 

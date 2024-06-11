@@ -1,17 +1,15 @@
 package com.example.nzgeneration.domain.auth;
 
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest;
-import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.TokenRevokeRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.LoginSimpleInfo;
-import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCDecodePayload;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.TokenRefreshSimpleInfo;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.domain.user.UserService;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
+import com.example.nzgeneration.global.security.JwtOIDCProvider;
 import com.example.nzgeneration.global.security.JwtTokenProvider;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,23 +22,24 @@ public class AuthService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
+    private final JwtOIDCProvider jwtOIDCProvider;
 
-    @Transactional
-    public LoginSimpleInfo login(String idToken){
-        OIDCDecodePayload oidcDecodePayload = appleOauthHelper.getOIDCDecodePayload(idToken);
-        String email = oidcDecodePayload.email();
-        Optional<User> optionalMember = userRepository.findByEmail(email);
-        String accessToken, refreshToken;
-        if(optionalMember.isPresent()){ //로그인 로직
-            accessToken = jwtTokenProvider.createAccessToken(optionalMember.get().getPayload());
-            refreshToken = jwtTokenProvider.createRefreshToken(optionalMember.get().getId());
-            optionalMember.get().updateToken(accessToken, refreshToken);
-            return LoginSimpleInfo.toDTO(accessToken, refreshToken, true);
-        }
-        accessToken = jwtTokenProvider.generateTempToken(email);
-        return LoginSimpleInfo.toDTO(accessToken, null, false);
-
-    }
+//    @Transactional
+//    public LoginSimpleInfo login(String code){
+//        OIDCDecodePayload oidcDecodePayload = appleOauthHelper.getOIDCDecodePayload(idToken);
+//        String email = oidcDecodePayload.email();
+//        Optional<User> optionalMember = userRepository.findByEmail(email);
+//        String accessToken, refreshToken;
+//        if(optionalMember.isPresent()){ //로그인 로직
+//            accessToken = jwtTokenProvider.createAccessToken(optionalMember.get().getPayload());
+//            refreshToken = jwtTokenProvider.createRefreshToken(optionalMember.get().getId());
+//            optionalMember.get().updateToken(accessToken, refreshToken);
+//            return LoginSimpleInfo.toDTO(accessToken, refreshToken, true);
+//        }
+//        accessToken = jwtTokenProvider.generateTempToken(email);
+//        return LoginSimpleInfo.toDTO(accessToken, null, false);
+//
+//    }
 
     @Transactional
     public LoginSimpleInfo signUp(CreateUserRequest createUserRequest){
@@ -81,5 +80,9 @@ public class AuthService {
     public void deleteAccount(User user){
         appleOauthHelper.revokeToken(user.getAppleRefreshToken());
         userService.deleteUserWithName(user.getNickname());
+    }
+
+    public String getSecretKey(){
+        return jwtOIDCProvider.createSecretKey();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.nzgeneration.domain.auth;
 
+import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.GenerateTokenRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.TokenRevokeRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCPublicKeysResponse;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -16,6 +17,9 @@ public interface AppleAuthApiClient {
 
     @PostMapping("/auth/revoke")
     void revokeAppleRefreshToken(@RequestBody TokenRevokeRequest tokenRevokeRequest);
+
+    @PostMapping("/auth/token")
+    void generateToken(@RequestBody GenerateTokenRequest generateTokenRequest);
 
 
 
