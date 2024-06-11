@@ -2,6 +2,7 @@ package com.example.nzgeneration.domain.user;
 
 
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.BadgeInfo;
+import com.example.nzgeneration.domain.user.dto.UserResponseDto.PatchProfileImg;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.RankingInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserEditingPageDetailInfo;
 import com.example.nzgeneration.domain.user.dto.UserResponseDto.UserMyPageDetailInfo;
@@ -43,9 +44,8 @@ public class UserController {
     }
     @PatchMapping("/profile-image")
     @Operation(summary = "프로필 사진 수정")
-    public ApiResponse<String> updateProfileImg(@CurrentUser User user, @RequestPart MultipartFile image){
-        userService.updateUserProfileImage(user, image);
-        return ApiResponse.onSuccess("프로필 사진 수정 완료");
+    public ApiResponse<PatchProfileImg> updateProfileImg(@CurrentUser User user, @RequestPart MultipartFile image){
+        return ApiResponse.onSuccess(userService.updateUserProfileImage(user, image));
     }
     @GetMapping("/days-signing")
     @Operation(summary = "가입 후 며칠이 지났는지(가입일이 1일)")

@@ -33,6 +33,9 @@ public class TrashcanReportService {
             .trashcanReportUser(user)
             .trashcanReportImageUrl(imageUrl)
             .trashCategory(trashCategory)
+            .approveStatus(ApproveStatus.PENDING)
+            .x(mapX)
+            .y(mapY)
             .build();
 
         trashcanReportRepository.save(trashcanReport);
@@ -59,4 +62,21 @@ public class TrashcanReportService {
         return reportCountList;
     }
 
+    public void changeStatusToApprove(Long reportId) {
+        TrashcanReport trashcanReport = trashcanReportRepository.findById(reportId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_TRASHCAN_REPORT));
+        if(trashcanReport.getApproveStatus() != ApproveStatus.PENDING) {
+            throw new GeneralException(ErrorStatus._DUPLICATED_TRASHCAN_REPORT);
+        }
+        trashcanReport.changeStatusToApprove();
+    }
+
+    public void changeStatusToRejected(Long reportId) {
+        TrashcanReport trashcanReport = trashcanReportRepository.findById(reportId)
+            .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_TRASHCAN_REPORT));
+        if(trashcanReport.getApproveStatus() != ApproveStatus.PENDING) {
+            throw new GeneralException(ErrorStatus._DUPLICATED_TRASHCAN_REPORT);
+        }
+        trashcanReport.changeStatusToRejected();
+    }
 }

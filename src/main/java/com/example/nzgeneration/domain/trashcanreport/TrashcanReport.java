@@ -15,14 +15,17 @@ import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
+@Getter
 public class TrashcanReport extends BaseTimeEntity {
 
     @Id
@@ -39,5 +42,18 @@ public class TrashcanReport extends BaseTimeEntity {
 
     private String trashcanReportImageUrl;
 
+    @Enumerated(EnumType.STRING)
+    private ApproveStatus approveStatus;
 
+    private double x;
+
+    private double y;
+
+    public void changeStatusToApprove() {
+        this.approveStatus = ApproveStatus.APPROVED;
+    }
+
+    public void changeStatusToRejected() {
+        this.approveStatus = ApproveStatus.REJECTED;
+    }
 }

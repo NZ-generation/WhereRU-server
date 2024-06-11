@@ -42,8 +42,11 @@ public enum ErrorStatus implements BaseErrorCode {
     _EMPTY_BANNER(HttpStatus.CONFLICT, 4051,"배너가 존재하지 않습니다." ),
 
     //뱃지 관련
-    _DUPLICATED_BADGE(HttpStatus.CONFLICT, 4061, "유저에게 이미 뱃지가 존재합니다.")
+    _DUPLICATED_BADGE(HttpStatus.CONFLICT, 4061, "유저에게 이미 뱃지가 존재합니다."),
 
+    //제보 관련
+    _EMPTY_TRASHCAN_REPORT(HttpStatus.CONFLICT, 4071, "존재하지 않는 쓰레기통 제보입니다."),
+    _DUPLICATED_TRASHCAN_REPORT(HttpStatus.CONFLICT, 4072, "이미 승인/거절이 된 제보입니다.")
 
     ;
 
