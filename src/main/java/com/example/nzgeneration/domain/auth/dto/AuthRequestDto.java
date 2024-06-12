@@ -12,7 +12,6 @@ public class AuthRequestDto {
     @AllArgsConstructor
     public static class CreateUserRequest {
         private String token;
-        private String appleRefreshToken;
         private String nickName;
         private String walletAddress;
         private Boolean isAllowLocationInfo;
@@ -39,13 +38,6 @@ public class AuthRequestDto {
 
     }
 
-    public static class GenerateTokenRequest{
-        private String client_id;
-        private String client_secret;
-        private String code;
-        private String grant_type;
-
-    }
 
 
 

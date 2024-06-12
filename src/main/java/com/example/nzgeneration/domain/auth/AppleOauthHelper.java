@@ -1,10 +1,9 @@
 package com.example.nzgeneration.domain.auth;
 
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.TokenRevokeRequest;
+import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.AppleTokenResponse;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.OIDCPublicKeysResponse;
 import com.example.nzgeneration.global.security.JwtOIDCProvider;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -33,10 +32,14 @@ public class AppleOauthHelper {
         );
     }
 
-    public void revokeToken(String token){
+    public void revokeToken(String token) throws Exception {
         TokenRevokeRequest tokenRevokeRequest = new TokenRevokeRequest(clientId,
             jwtOIDCProvider.createSecretKey(),token, "refresh_token");
         appleAuthApiClient.revokeAppleRefreshToken(tokenRevokeRequest);
+    }
+
+    public AppleTokenResponse getTokenRequest(String code) throws Exception {
+        return appleAuthApiClient.generateToken(clientId, jwtOIDCProvider.createSecretKey(), code, "authorization_code");
     }
 
 }
