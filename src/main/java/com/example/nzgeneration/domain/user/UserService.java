@@ -96,7 +96,6 @@ public class UserService {
     public void deleteUserWithName(String userName){
         User user = userRepository.findByNickname(userName)
             .orElseThrow(()-> new GeneralException(ErrorStatus._EMPTY_USER));
-
         List<TrashcanReport> reportList = trashcanReportRepository.findByTrashcanReportUser(user);
         List<TrashcanErrorReport> errorReportList = trashcanErrorReportRepository.findByUser(user);
         List<Nft> nftList = nftRepository.findByUser(user);

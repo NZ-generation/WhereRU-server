@@ -17,7 +17,7 @@ public interface AppleAuthApiClient {
     OIDCPublicKeysResponse getAppleOIDCOpenKeys();
 
     @PostMapping("/auth/revoke")
-    void revokeAppleRefreshToken(@RequestBody TokenRevokeRequest tokenRevokeRequest);
+    void revokeAppleRefreshToken(@RequestParam("client_id") String clientId, @RequestParam("client_secret") String clientSecret, @RequestParam("token") String token, @RequestParam("token_type_hint") String token_type_hint);
 
     @PostMapping("/auth/token")
     AppleTokenResponse generateToken(@RequestParam("client_id") String clientId,

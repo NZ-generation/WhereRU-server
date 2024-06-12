@@ -58,7 +58,7 @@ public class AuthController {
 
     @PostMapping("/delete-account")
     @Operation(summary = "유저 탈퇴")
-    public ApiResponse<String> deleteAcccount(@CurrentUser User user) throws Exception {
+    public ApiResponse<String> deleteAccount(@CurrentUser User user) throws Exception {
         authService.deleteAccount(user);
         return ApiResponse.onSuccess("탈퇴 완료되었습니다.");
     }

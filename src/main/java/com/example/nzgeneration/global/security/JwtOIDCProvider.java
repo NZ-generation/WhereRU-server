@@ -139,7 +139,7 @@ public class JwtOIDCProvider {
             .setExpiration(expirationDate)
             .setAudience(issuer)
             .setSubject(clientId)
-            .signWith(SignatureAlgorithm.ES256, newPrivateKey)  // Use the Key and SignatureAlgorithm as parameters
+            .signWith(SignatureAlgorithm.ES256, newPrivateKey)
             .compact();
     }
 

@@ -10,6 +10,7 @@ import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.domain.user.UserService;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
+import com.example.nzgeneration.global.security.JwtOIDCProvider;
 import com.example.nzgeneration.global.security.JwtTokenProvider;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class AuthService {
         }
         accessToken = jwtTokenProvider.generateTempToken(payload);
         return LoginSimpleInfo.toDTO(accessToken, null, false);
+
     }
 
     @Transactional

@@ -33,9 +33,7 @@ public class AppleOauthHelper {
     }
 
     public void revokeToken(String token) throws Exception {
-        TokenRevokeRequest tokenRevokeRequest = new TokenRevokeRequest(clientId,
-            jwtOIDCProvider.createSecretKey(),token, "refresh_token");
-        appleAuthApiClient.revokeAppleRefreshToken(tokenRevokeRequest);
+        appleAuthApiClient.revokeAppleRefreshToken(clientId, jwtOIDCProvider.createSecretKey(), token, "refresh_token");
     }
 
     public AppleTokenResponse getTokenRequest(String code) throws Exception {
