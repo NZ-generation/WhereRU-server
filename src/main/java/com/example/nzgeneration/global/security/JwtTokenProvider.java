@@ -121,7 +121,7 @@ public class JwtTokenProvider {
             .compact();
     }
 
-    public String validateTempTokenAndGetEmail(String token) {
+    public String validateTempTokenAndGetPayload(String token) {
         try {
             return Jwts.parser()
                 .setSigningKey(getSecretKey())

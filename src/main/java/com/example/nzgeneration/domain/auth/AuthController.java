@@ -4,7 +4,9 @@ import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.CreateUserRequest
 import com.example.nzgeneration.domain.auth.dto.AuthRequestDto.UserIdTokenRequest;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.LoginSimpleInfo;
 import com.example.nzgeneration.domain.auth.dto.AuthResponseDto.TokenRefreshSimpleInfo;
+import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.response.ApiResponse;
+import com.example.nzgeneration.global.security.CurrentUser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,9 @@ public class AuthController {
 
     @PostMapping("/login")
     @Operation(summary = "로그인/회원가입 api", description = "code : Authorization code / 회원가입, 로그인 구분 없이 동일한 API 사용")
-    public ApiResponse<LoginSimpleInfo> login(@RequestBody UserIdTokenRequest userTokenRequest){
-        LoginSimpleInfo loginSimpleInfo = authService.login(userTokenRequest.getIdToken());
+    public ApiResponse<LoginSimpleInfo> login(@RequestBody UserIdTokenRequest userTokenRequest)
+        throws Exception {
+        LoginSimpleInfo loginSimpleInfo = authService.login(userTokenRequest.getAuthCode());
         if(loginSimpleInfo.getIsSignUp()){
             return ApiResponse.onSuccess(loginSimpleInfo);
         }
@@ -51,5 +54,12 @@ public class AuthController {
     public ApiResponse<Boolean> checkNickName(@PathVariable String nickname){
         boolean status = authService.checkNickNameDuplicate(nickname);
         return ApiResponse.onSuccess(status);
+    }
+
+    @PostMapping("/delete-account")
+    @Operation(summary = "유저 탈퇴")
+    public ApiResponse<String> deleteAccount(@CurrentUser User user) throws Exception {
+        authService.deleteAccount(user);
+        return ApiResponse.onSuccess("탈퇴 완료되었습니다.");
     }
 }
