@@ -31,6 +31,7 @@ public class Nft extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Getter
     private String imageUrl;
 
     @OneToOne(cascade = CascadeType.ALL)
