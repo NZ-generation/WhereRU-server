@@ -46,7 +46,10 @@ public enum ErrorStatus implements BaseErrorCode {
 
     //제보 관련
     _EMPTY_TRASHCAN_REPORT(HttpStatus.CONFLICT, 4071, "존재하지 않는 쓰레기통 제보입니다."),
-    _DUPLICATED_TRASHCAN_REPORT(HttpStatus.CONFLICT, 4072, "이미 승인/거절이 된 제보입니다.")
+    _DUPLICATED_TRASHCAN_REPORT(HttpStatus.CONFLICT, 4072, "이미 승인/거절이 된 제보입니다."),
+
+    //NFT 관련
+    _INVALID_NFT(HttpStatus.CONFLICT, 4081, "존재하지 않는 NFT입니다.")
 
     ;
 
