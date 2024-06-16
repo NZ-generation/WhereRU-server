@@ -47,7 +47,7 @@ public class UserService {
     @Transactional
     public void addStamp(User user) {
         badgeService.giveMemberFirstBadge(user);
-        user.stamp(20);
+        user.stamp(100);
     }
 
     @Transactional

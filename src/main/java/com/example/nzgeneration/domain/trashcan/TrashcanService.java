@@ -5,6 +5,7 @@ import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrash
 import com.example.nzgeneration.domain.trashcan.dto.TrashcanResponseDto.GetTrashcanResponses;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReport;
 import com.example.nzgeneration.domain.trashcanreport.TrashcanReportRepository;
+import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
 import jakarta.transaction.Transactional;
@@ -99,6 +100,9 @@ public class TrashcanService {
             .orElseThrow(() -> new GeneralException(ErrorStatus._EMPTY_TRASHCAN_REPORT));
 
         org.locationtech.jts.geom.Point trashcanPoint = geometryFactory.createPoint(new Coordinate(trashcanReport.getX(), trashcanReport.getY()));
+
+        User user = trashcanReport.getTrashcanReportUser();
+        user.receiveReportPoint(300);
 
         Trashcan trashcan = Trashcan.builder()
             .trashCategory(trashcanReport.getTrashCategory())
