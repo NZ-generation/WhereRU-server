@@ -14,17 +14,19 @@ public class BoardResponseDto {
     @Getter
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class NftBoardResponse{
+    public static class NftBoardResponse {
+
         private String nftUrl;
         private Long nftId;
 
 
-        public static NftBoardResponse toDto(Nft nft){
+        public static NftBoardResponse toDto(Nft nft) {
             return NftBoardResponse.builder()
                 .nftUrl(nft.getImageUrl())
                 .nftId(nft.getId())
                 .build();
+
+
         }
     }
-
 }
