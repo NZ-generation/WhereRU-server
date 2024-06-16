@@ -78,6 +78,9 @@ public class User extends BaseTimeEntity {
         this.refreshToken = refreshToken;
         this.appleRefreshToken = appleRefreshToken;
     }
+    public void updateNftCount(){
+        this.nftCount++;
+    }
 
     public void updateNickName(String nickname){
         this.nickname = nickname;

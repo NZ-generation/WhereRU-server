@@ -31,6 +31,7 @@ public class NftService {
         String result = openAIService.createImage(openAIService.buildPrompt(gender, action, animal));
         Nft nft = Nft.toEntity(user, result);
         nftRepository.save(nft);
+        user.updateNftCount();
         return MyNftResponse.toDto(nft);
     }
 
