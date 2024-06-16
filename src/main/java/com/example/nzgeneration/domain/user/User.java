@@ -59,6 +59,11 @@ public class User extends BaseTimeEntity {
         this.currentPoint += point;
     }
 
+    public void receiveReportPoint(int point) {
+        this.cumulativePoint += point;
+        this.currentPoint += point;
+    }
+
     private String accessToken;
     private String refreshToken;
     private String appleRefreshToken;

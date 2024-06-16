@@ -13,9 +13,8 @@ public class TrashcanReportRequestDto {
     @AllArgsConstructor
     @Getter
     public static class AddTrashcanReportRequest {
-        int mapX;
-        int mapY;
-        String imageUrl;
+        double mapX;
+        double mapY;
         TrashCategory trashCategory;
     }
 
