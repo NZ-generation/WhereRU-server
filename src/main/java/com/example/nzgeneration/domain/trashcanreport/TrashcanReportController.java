@@ -3,6 +3,7 @@ package com.example.nzgeneration.domain.trashcanreport;
 import com.example.nzgeneration.domain.trashcanreport.dto.TrashcanReportRequestDto.AddTrashcanReportRequest;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.response.ApiResponse;
+import com.example.nzgeneration.global.security.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,11 @@ public class TrashcanReportController {
 
     @PostMapping("/api/trashcan")
     public ApiResponse<String> addTrashcanReport(
+        @CurrentUser User user,
         @RequestBody AddTrashcanReportRequest addTrashcanReportRequest) {
-        trashcanReportService.addTrashcanReport(addTrashcanReportRequest.getMapX(),
+        trashcanReportService.addTrashcanReport(
+            user,
+            addTrashcanReportRequest.getMapX(),
             addTrashcanReportRequest.getMapY(), addTrashcanReportRequest.getImageUrl(),
             addTrashcanReportRequest.getTrashCategory());
         return ApiResponse.onSuccess("제보에 성공했습니다.");
