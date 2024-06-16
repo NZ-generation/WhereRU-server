@@ -4,7 +4,6 @@ import com.example.nzgeneration.domain.nft.dto.NftResponseDto.MyNftResponse;
 import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.openai.OpenAIService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +30,7 @@ public class NftService {
         String result = openAIService.createImage(openAIService.buildPrompt(gender, action, animal));
         Nft nft = Nft.toEntity(user, result);
         nftRepository.save(nft);
+        user.updateNftCount();
         return MyNftResponse.toDto(nft);
     }
 
