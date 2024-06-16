@@ -102,7 +102,7 @@ public class TrashcanService {
         org.locationtech.jts.geom.Point trashcanPoint = geometryFactory.createPoint(new Coordinate(trashcanReport.getX(), trashcanReport.getY()));
 
         User user = trashcanReport.getTrashcanReportUser();
-        user.receiveReportPoint(40);
+        user.receiveReportPoint(300);
 
         Trashcan trashcan = Trashcan.builder()
             .trashCategory(trashcanReport.getTrashCategory())
