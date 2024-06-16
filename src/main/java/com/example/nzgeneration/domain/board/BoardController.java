@@ -5,6 +5,7 @@ import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.global.common.dto.PageResponseDto;
 import com.example.nzgeneration.global.common.response.ApiResponse;
 import com.example.nzgeneration.global.security.CurrentUser;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/{id}")
+    @Operation(summary = "NFT 둘러보기 게시판 업로드")
     public ApiResponse<String> uploadNft(@CurrentUser User user, @PathVariable("id") Long nftId){
         boardService.uploadNft(user, nftId);
         return ApiResponse.onSuccess("업로드 완료");
