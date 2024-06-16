@@ -58,6 +58,7 @@ public class TrashcanService {
                 .trashcanPoint(new Point(trashcan.getTrashcanPoint().getX(),
                     trashcan.getTrashcanPoint().getY()))
                 .imageUrl(trashcan.getRepresentativeImageUrl())
+                .trashCategory(trashcan.getTrashCategory().toString())
                 .build()
         ).toList();
         return new GetTrashcanResponses(trashcanResponses);
