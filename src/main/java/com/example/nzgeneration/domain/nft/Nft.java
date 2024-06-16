@@ -26,6 +26,7 @@ public class Nft extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,5 +37,13 @@ public class Nft extends BaseTimeEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @Getter
+    @Setter
     private Board board;
+
+    public static Nft toEntity(User user, String imageUrl){
+        return Nft.builder()
+            .user(user)
+            .imageUrl(imageUrl)
+            .build();
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.nzgeneration.domain.nft.dto;
 
+import com.example.nzgeneration.domain.nft.Nft;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,11 +14,13 @@ public class NftResponseDto {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class MyNftResponse{
-        private List<String> nftImgUrl;
+        private String nftUrl;
+        private Long nftId;
 
-        public static MyNftResponse toDto(List<String> nftImgUrl){
+        public static MyNftResponse toDto(Nft nft){
             return MyNftResponse.builder()
-                .nftImgUrl(nftImgUrl)
+                .nftUrl(nft.getImageUrl())
+                .nftId(nft.getId())
                 .build();
         }
     }

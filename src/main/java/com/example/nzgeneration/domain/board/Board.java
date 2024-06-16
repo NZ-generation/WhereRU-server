@@ -29,4 +29,9 @@ public class Board extends BaseTimeEntity {
 
     private Long likeCount;
 
+    public static Board toEntity(){
+        return Board.builder()
+            .build();
+    }
+
 }
