@@ -5,6 +5,7 @@ import com.example.nzgeneration.domain.user.User;
 import com.example.nzgeneration.domain.user.UserRepository;
 import com.example.nzgeneration.global.common.response.code.status.ErrorStatus;
 import com.example.nzgeneration.global.common.response.exception.GeneralException;
+import com.example.nzgeneration.global.s3.S3Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -14,20 +15,23 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
 public class TrashcanReportService {
 
     private final TrashcanReportRepository trashcanReportRepository;
-    private final UserRepository userRepository;
+    private final S3Service s3Service;
 
     @Transactional
-    public void addTrashcanReport(User user, int mapX, int mapY, String imageUrl, TrashCategory trashCategory) {
+    public void addTrashcanReport(User user, MultipartFile image, double mapX, double mapY, TrashCategory trashCategory) {
+
+        String profileImgUrl = s3Service.uploadFile(image).getImgUrl();
 
         TrashcanReport trashcanReport = TrashcanReport.builder()
             .trashcanReportUser(user)
-            .trashcanReportImageUrl(imageUrl)
+            .trashcanReportImageUrl(profileImgUrl)
             .trashCategory(trashCategory)
             .approveStatus(ApproveStatus.PENDING)
             .x(mapX)
