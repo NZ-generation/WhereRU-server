@@ -33,7 +33,7 @@ public class NftController {
     @PostMapping("/")
     @Operation(summary = "나의 Nft 생성")
     public ApiResponse<MyNftResponse> makeNft(@CurrentUser User user,@RequestParam String gender, @RequestParam String action,
-        @RequestParam String animal) throws JsonProcessingException{
+        @RequestParam String animal) throws Exception {
         return ApiResponse.onSuccess(nftService.makeMyNft(user, gender, action, animal));
 
     }

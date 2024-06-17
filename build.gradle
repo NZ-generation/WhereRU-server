@@ -67,6 +67,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     implementation 'org.hibernate:hibernate-spatial:6.4.4.Final'
+
+    implementation 'org.web3j:core:4.9.4'
 }
 
 tasks.named('test') {
